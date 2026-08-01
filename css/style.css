@@ -1,0 +1,803 @@
+/* ============================================================
+   Chalkboard Cosmos — Clarence Wong
+   A teacher's chalkboard redrawn as a universe of data.
+   Chalk on board only: no shadows, no glass, no gradient cards.
+   Depth lives in the WebGL cosmos; the DOM stays flat.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Design tokens
+   ------------------------------------------------------------ */
+:root {
+  /* Board greens */
+  --board-deep: #0f1b14;                       /* page background beyond the board */
+  --board: #16271d;                            /* main board green */
+
+  /* Chalk voices */
+  --chalk: #f3efe2;                            /* warm white — body voice */
+  --dust: #8f9b93;                             /* secondary / faded chalk */
+  --amber: #e8a33d;                            /* accent — data, active, CTA only */
+
+  /* Drawn strokes */
+  --line: rgba(243, 239, 226, 0.28);           /* chalk lines */
+  --line-soft: rgba(243, 239, 226, 0.14);      /* faded chalk lines */
+
+  /* Type */
+  --font-hand: "Kalam", "Caveat", cursive;              /* display hand */
+  --font-note: "Caveat", cursive;                       /* chalk annotations */
+  --font-serif: "Newsreader", Georgia, serif;           /* body */
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Spacing rhythm — 8px base; sections breathe at 96–160px */
+}
+
+/* ------------------------------------------------------------
+   2. Base
+   ------------------------------------------------------------ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-serif);
+  color: var(--chalk);
+  background:
+    radial-gradient(1200px 800px at 50% 0%, #1a2f23 0%, #16271d 55%, #101d15 100%);
+  background-color: var(--board);
+  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--board-deep);
+}
+
+:focus-visible {
+  outline: 2px dashed var(--amber);
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--chalk);
+  transition: color 0.25s ease;
+}
+a:hover {
+  color: var(--amber);
+}
+
+img {
+  max-width: 100%;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+}
+
+.dust {
+  color: var(--dust);
+}
+
+/* ------------------------------------------------------------
+   3. Canvas + board layering
+   ------------------------------------------------------------ */
+#cosmos {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+html.no-webgl #cosmos,
+html.no-js #cosmos {
+  display: none;
+}
+
+.board {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------
+   4. Hero
+   ------------------------------------------------------------ */
+.lesson {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.lesson--hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 96px 24px;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.chalk-seal {
+  width: 72px;
+  height: 72px;
+  color: var(--amber);
+  margin: 0 auto 28px;
+}
+.chalk-seal svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chalk-name {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(3.5rem, 12vw, 8.5rem);
+  line-height: 1.02;
+  color: var(--chalk);
+  letter-spacing: 0.01em;
+  margin: 0 0 18px;
+}
+
+.chalk-tagline {
+  font-family: var(--font-mono);
+  color: var(--dust);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: clamp(0.8rem, 1.6vw, 1rem);
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+
+.chalk-note {
+  font-family: var(--font-note);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--amber);
+  margin: 0 0 40px;
+}
+
+.hero-cue {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 56px;
+  color: var(--dust);
+  text-decoration: none;
+  transition: color 0.25s ease;
+  animation: cue-bob 2.2s ease-in-out infinite;
+}
+.hero-cue svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+.hero-cue:hover {
+  color: var(--amber);
+}
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+.chalk-socials {
+  list-style: none;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------
+   5. Chalk buttons
+   ------------------------------------------------------------ */
+.chalk-btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  border: 1.5px dashed var(--line);
+  border-radius: 999px;
+  padding: 0.65em 1.5em;
+  text-decoration: none;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+.chalk-btn:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+  border-style: solid;
+}
+
+.chalk-btn--big {
+  font-size: 1.15rem;
+  padding: 1.1em 3em;
+  border-width: 2px;
+  margin: 36px 0 44px;
+}
+
+/* ------------------------------------------------------------
+   6. Lesson sections
+   ------------------------------------------------------------ */
+.lesson-inner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 110px 24px 150px;
+}
+
+.lesson-num {
+  position: static;
+  display: block;
+  margin-bottom: 18px;
+  color: var(--dust);
+  letter-spacing: 0.4em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.chalk-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  margin: 0 0 12px;
+  position: relative;
+}
+.chalk-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 120px;
+  height: 0;
+  border-top: 2px dashed rgba(143, 155, 147, 0.6);
+  opacity: 0.8;
+}
+
+.chalk-subtitle {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  margin: 0 0 8px;
+}
+
+.lesson-lead {
+  font-size: 1.15rem;
+  max-width: 56ch;
+  margin: 0 auto 0 0;
+  color: var(--chalk);
+}
+
+/* ------------------------------------------------------------
+   7. About
+   ------------------------------------------------------------ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 64px;
+  margin-top: 40px;
+  align-items: start;
+}
+
+.profile-ring {
+  width: 280px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px dashed var(--line);
+  padding: 10px;
+  margin: 0 auto 32px;
+}
+.profile-ring img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  filter: contrast(1.05);
+  background: #101d15;
+}
+
+.info-chalk {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.info-chalk li {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line-soft);
+  font-size: 1.02rem;
+}
+.info-chalk li .mono {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--dust);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.about-text p {
+  font-size: 1.08rem;
+  margin: 0 0 18px;
+  max-width: 65ch;
+}
+
+/* ------------------------------------------------------------
+   8. Resume timeline
+   ------------------------------------------------------------ */
+.timeline-chalk {
+  margin-top: 40px;
+}
+
+.timeline-heading {
+  margin: 48px 0 8px;
+}
+.timeline-heading:first-child {
+  margin-top: 0;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  bottom: 8px;
+  border-left: 2px dashed var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 44px 56px;
+}
+
+.timeline-node {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--chalk);
+  background: var(--board);
+}
+.timeline-node::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.timeline-item.is-visible .timeline-node::after {
+  opacity: 1;
+}
+
+.timeline-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0 0 4px;
+}
+
+.timeline-meta {
+  color: var(--dust);
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+}
+.data-amber {
+  color: var(--amber);
+}
+
+.timeline-desc {
+  margin: 0;
+  max-width: 72ch;
+  color: rgba(243, 239, 226, 0.92);
+}
+
+/* ------------------------------------------------------------
+   9. Skills
+   ------------------------------------------------------------ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.skill-card {
+  border: 1.5px dashed var(--line);
+  padding: 36px 30px;
+  text-align: left;
+  position: relative;
+  background: rgba(243, 239, 226, 0.02);
+  transition: border-color 0.3s ease;
+}
+.skill-card:hover {
+  border-color: var(--amber);
+}
+
+.chalk-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--chalk);
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+.chalk-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.skill-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin: 0 0 8px;
+}
+
+.skill-desc {
+  color: var(--dust);
+  font-size: 0.98rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------
+   10. Projects (3D cards)
+   ------------------------------------------------------------ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+  perspective: 1400px;
+}
+
+.card-3d {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: var(--chalk);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0)) rotateY(var(--ry, 0)) translateZ(0);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.3s ease;
+  border: 1.5px dashed rgba(243, 239, 226, 0.38);
+  background: rgba(243, 239, 226, 0.02);
+  padding: 0;
+  will-change: transform;
+}
+.card-3d:hover {
+  border-color: var(--amber);
+  color: var(--chalk);
+}
+
+.card-3d__img {
+  display: block;
+  padding: 12px 12px 0;
+  transform: translateZ(26px);
+}
+.card-3d__img img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border: 1px dashed var(--line-soft);
+  background: #101d15;
+  filter: saturate(0.88) contrast(1.02);
+  transition: transform 0.4s ease;
+}
+.card-3d:hover .card-3d__img img {
+  transform: scale(1.03);
+}
+
+.card-3d__body {
+  display: block;
+  padding: 18px 20px 22px;
+  transform: translateZ(46px);
+  position: relative;
+}
+
+.card-3d__tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dust);
+  border: 1px dashed rgba(143, 155, 147, 0.5);
+  border-radius: 999px;
+  padding: 0.3em 0.9em;
+  margin-bottom: 10px;
+}
+
+.card-3d__title {
+  display: block;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  padding-right: 26px;
+}
+
+.card-3d__arrow {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  font-size: 1.3rem;
+  color: var(--dust);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.card-3d:hover .card-3d__arrow {
+  color: var(--amber);
+  transform: translate(3px, -3px);
+}
+
+/* ------------------------------------------------------------
+   11. Contact + footer
+   ------------------------------------------------------------ */
+#contact {
+  text-align: center;
+}
+#contact .lesson-lead {
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board-footer {
+  border-top: 1px dashed var(--line-soft);
+  padding: 48px 24px 64px;
+  text-align: center;
+  color: var(--dust);
+  font-size: 0.92rem;
+}
+.board-footer a {
+  color: var(--chalk);
+}
+.back-top {
+  margin-top: 14px;
+}
+.back-top a {
+  color: var(--dust);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.back-top a:hover {
+  color: var(--amber);
+}
+
+/* ------------------------------------------------------------
+   12. Lesson rail + progress
+   ------------------------------------------------------------ */
+.lesson-rail {
+  position: fixed;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 5;
+}
+
+.lesson-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dust);
+  font-size: 0.68rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: rgba(15, 27, 20, 0.6);
+}
+.lesson-dot:hover {
+  border-color: var(--chalk);
+  color: var(--chalk);
+}
+.lesson-dot.is-active {
+  border-color: var(--amber);
+  border-style: solid;
+  color: var(--amber);
+  background: rgba(232, 163, 61, 0.08);
+}
+
+.progress-chalk {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 6;
+  background: transparent;
+}
+.progress-chalk__bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(var(--p, 0));
+  transform-origin: left center;
+  background: var(--amber);
+  opacity: 0.85;
+  transition: transform 0.1s linear;
+}
+
+/* ------------------------------------------------------------
+   13. Reveal system (gated on html.js)
+   ------------------------------------------------------------ */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.js [data-delay="1"] { --d: 1; }
+html.js [data-delay="2"] { --d: 2; }
+html.js [data-delay="3"] { --d: 3; }
+html.js [data-delay="4"] { --d: 4; }
+html.js [data-delay="5"] { --d: 5; }
+
+/* Without .js, .reveal stays visible — no hiding rules apply. */
+
+/* ------------------------------------------------------------
+   14. Reduced motion + no-webgl fallbacks
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-cue {
+    animation: none;
+  }
+  html.js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .card-3d {
+    transform: none !important;
+    transition: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* no-webgl: the board stands alone; body background keeps the vignette. */
+html.no-webgl #cosmos {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   15. Responsive
+   ------------------------------------------------------------ */
+
+/* ≤1100px — skills to two columns */
+@media (max-width: 1100px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ≤900px — about to one column, hide lesson rail */
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .profile-ring {
+    margin: 0 auto 32px;
+  }
+  .about-text {
+    order: 2;
+  }
+  .info-chalk {
+    order: 1;
+  }
+  .lesson-rail {
+    display: none;
+  }
+}
+
+/* ≤760px — projects to one column */
+@media (max-width: 760px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ≤700px — skills to one column */
+@media (max-width: 700px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ≤520px — tighter padding, hero name floor to 3rem */
+@media (max-width: 520px) {
+  .lesson {
+    padding: 64px 18px;
+  }
+  .chalk-seal {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+  }
+  .chalk-name {
+    font-size: clamp(3rem, 12vw, 8.5rem);
+  }
+}
+
+/* ------------------------------------------------------------
+   16. Scrollbar (WebKit)
+   ------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+}
+
+/* ------------------------------------------------------------
+   17. Print
+   ------------------------------------------------------------ */
+@media print {
+  #cosmos,
+  .lesson-rail,
+  .progress-chalk {
+    display: none;
+  }
+  body {
+    background: #fff;
+    color: #111;
+  }
+  a {
+    color: #111;
+  }
+}
