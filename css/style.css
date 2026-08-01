@@ -638,6 +638,55 @@ html.no-js #cosmos {
   background: rgba(232, 163, 61, 0.08);
 }
 
+/* Rail tooltips — chalk labels that appear on hover/focus */
+.lesson-dot {
+  position: relative;
+}
+.lesson-dot::before {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  padding: 6px 12px;
+  border: 1.5px dashed rgba(232, 163, 61, 0.6);
+  border-radius: 999px;
+  background: rgba(15, 27, 20, 0.92);
+  color: var(--chalk);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1), visibility 0.25s;
+  pointer-events: none;
+}
+.lesson-dot::after {
+  content: "";
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 1.5px;
+  background: rgba(232, 163, 61, 0.6);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.lesson-dot:hover::before,
+.lesson-dot:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+.lesson-dot:hover::after,
+.lesson-dot:focus-visible::after {
+  opacity: 1;
+}
+
 .progress-chalk {
   position: fixed;
   top: 0;
