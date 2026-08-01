@@ -199,6 +199,7 @@
   /* -- 5.1 Atom: nucleus + two tilted orbits with riding electrons -------- */
   atomGroup = new THREE.Group();
   atomGroup.position.set(-6.6, 2.2, -4);
+  atomGroup.userData.baseZ = -4; /* resting depth; float pushes it toward the camera */
   atomGroup.userData.opacityBase = 1.0;
   atomGroup.userData.materials = [];
 
@@ -240,6 +241,7 @@
   /* -- 5.2 Scatter: data cloud + amber regression line -------------------- */
   scatterGroup = new THREE.Group();
   scatterGroup.position.set(6.8, 1.0, -5);
+  scatterGroup.userData.baseZ = -5; /* resting depth; float pushes it toward the camera */
   scatterGroup.userData.opacityBase = 1.0;
   scatterGroup.userData.materials = [];
 
@@ -273,6 +275,7 @@
   /* -- 5.3 Chain: wavy molecular bond chain, one amber link --------------- */
   chainGroup = new THREE.Group();
   chainGroup.position.set(0, -3.8, -7);
+  chainGroup.userData.baseZ = -7; /* resting depth; float pushes it toward the camera */
   chainGroup.userData.opacityBase = 0.9;
   chainGroup.userData.materials = [];
 
@@ -298,6 +301,7 @@
   /* -- 5.4 Orbit: large dashed ring --------------------------------------- */
   orbitGroup = new THREE.Group();
   orbitGroup.position.set(0, 4.2, -8);
+  orbitGroup.userData.baseZ = -8; /* resting depth; float pushes it toward the camera */
   orbitGroup.userData.opacityBase = 0.7;
   orbitGroup.userData.materials = [];
 
@@ -407,6 +411,7 @@
   var progress = 0;     /* smoothed 0..1 overall scroll    */
   var targetProgress = 0; /* raw scroll fraction, clamped 0..1 */
   var scrollVel = 0;    /* smoothed per-frame progress velocity */
+  var dustZ = 0;        /* smoothed dust-cloud depth offset (scroll rush) */
   var mx = 0;           /* normalized pointer x, -1..1     */
   var my = 0;           /* normalized pointer y, -1..1     */
   var running = false;
@@ -440,6 +445,11 @@
     /* Chalk dust tumbles slowly; scrolling gives it a little extra life. */
     dust.rotation.y += 0.0003 + Math.abs(scrollVel) * 0.02;
 
+    /* Dust rush: fast scrolling shoves the whole cloud toward the camera
+       (motion parallax), then it eases back once scrolling slows. */
+    dustZ += ((-scrollVel * 30) - dustZ) * 0.12;
+    dust.position.z = dustZ;
+
     /* Electrons orbiting their nucleus. */
     updateElectrons(t);
 
@@ -447,18 +457,31 @@
     var cx = Math.sin(progress * Math.PI * 2) * 2.4 + mx * 0.8;
     var cy = Math.cos(progress * Math.PI * 3) * 1.2 + my * 0.5;
     var cz = 16 + Math.sin(progress * Math.PI) * 1.5;
-    /* Lesson-boundary dolly: lean in as a section crossing begins, return after.
-       Shared with main.js via window.__chalkDolly (dip 0..1, 0 at rest). */
+    /* Lesson-boundary dolly: dive in as a section crossing begins, return after.
+       Shared with main.js via window.__chalkDolly (dip 0..1, 0 at rest).
+       The stronger dive pulls the camera toward the board, and the matching
+       downward pitch frames the crossing constellation. */
     var chalkDolly = window.__chalkDolly && window.__chalkDolly.dip;
-    if (chalkDolly) { cz -= chalkDolly * 1.5; }
+    if (chalkDolly) { cz -= chalkDolly * 4.5; }
     camera.position.x += (cx - camera.position.x) * 0.06;
     camera.position.y += (cy - camera.position.y) * 0.06;
     camera.position.z += (cz - camera.position.z) * 0.06;
-    camera.lookAt(0, 0, 0);
+    /* Guard mirrors the dive check above: lookY must never be NaN even
+       if the dolly object is missing (contract: cosmos reads it safely). */
+    var lookY = chalkDolly ? -chalkDolly * 0.8 : 0;
+    camera.lookAt(0, lookY, 0);
 
     /* Per-section chalk brightening. */
     setEmphasisTargets();
     lerpOpacities();
+
+    /* Constellation float: the boosted lesson drifts toward the camera,
+       the rest sit at their base depth — subtle 3D layering. */
+    for (i = 0; i < groups.length; i++) {
+      var grp = groups[i];
+      var targetZ = grp.userData.baseZ + grp.userData.boost * 1.6;
+      grp.position.z += (targetZ - grp.position.z) * 0.08;
+    }
 
     renderer.render(scene, camera);
   }

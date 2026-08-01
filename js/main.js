@@ -385,7 +385,7 @@
           var s2 = s * s * (3 - 2 * s); /* smoothstep */
 
           /* Departing lesson recedes; arriving lesson looms and settles. */
-          var scale = 1 + 0.12 * (0.5 - s2);
+          var scale = 1 + 0.16 * (0.5 - s2);
           var opacity;
           var ty;
           if (s2 < 0.5) {
