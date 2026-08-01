@@ -81,7 +81,7 @@ Implemented: chalk buttons (dashed pill → solid amber on hover, big variant fo
 
 ### Do:
 - **Do** keep the cosmos an enhancement: the full content must read with WebGL off and with reduced motion on (static chalk rendering).
-- **Do** preserve all archived copy verbatim (old-web-resources/site-content.md), including the personal voice.
+- **Do** preserve the archived copy's wording and personal voice (the original typos were corrected once by user request — do not reintroduce or further rewrite).
 - **Do** spend amber only on data, active states, and the CTA.
 
 ### Don't:

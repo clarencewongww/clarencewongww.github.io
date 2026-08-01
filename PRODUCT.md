@@ -27,7 +27,7 @@ Visitors arrive from LinkedIn, GitHub, Google Scholar, resumes, or business card
 - Static site, GitHub Pages compatible (no backend).
 - Full WebGL/Three.js 3D hero world + scroll-driven 3D transformation; project cards with real depth (user-confirmed direction).
 - Contact via mailto:contact@clarencewongww.com (no server-side form — user chose this over form services).
-- Content: keep all current sections verbatim for now (About, Resume, Skills, Projects, Hire Me, footer), including existing wording; no new sections requested yet.
+- Content: all current sections kept (About, Resume, Skills, Projects, Hire Me, footer); archived wording preserved, with the original typos corrected once (user request); no new sections requested yet.
 - Assets: reuse archived assets in old-web-resources/ (profile photo, 4 project thumbnails, hero background, loader.gif). Visual world is new; old look is not authority.
 - Socials preserved: LinkedIn (linkedin.com/in/clarencewongww), GitHub (github.com/clarencewongww), Google Scholar (scholar.google.com/citations?user=C7ygBNAAAAAJ).
 - Accessibility: content must remain visible and readable without WebGL; 3D is enhancement, not the content carrier.
