@@ -447,6 +447,10 @@
     var cx = Math.sin(progress * Math.PI * 2) * 2.4 + mx * 0.8;
     var cy = Math.cos(progress * Math.PI * 3) * 1.2 + my * 0.5;
     var cz = 16 + Math.sin(progress * Math.PI) * 1.5;
+    /* Lesson-boundary dolly: lean in as a section crossing begins, return after.
+       Shared with main.js via window.__chalkDolly (dip 0..1, 0 at rest). */
+    var chalkDolly = window.__chalkDolly && window.__chalkDolly.dip;
+    if (chalkDolly) { cz -= chalkDolly * 1.5; }
     camera.position.x += (cx - camera.position.x) * 0.06;
     camera.position.y += (cy - camera.position.y) * 0.06;
     camera.position.z += (cz - camera.position.z) * 0.06;

@@ -748,6 +748,11 @@ html.js [data-delay="5"] { --d: 5; }
     transform: none !important;
     transition: none !important;
   }
+  .lesson-inner, .hero-inner {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

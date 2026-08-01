@@ -5,6 +5,7 @@
  *   2. Scroll progress bar
  *   3. Lesson-rail scroll-spy
  *   4. 3D project cards
+ *   5. Lesson dolly (scroll-linked zoom)
  *
  * Plain vanilla JS, no dependencies, no modules. Loaded AFTER js/cosmos.js.
  * Every behaviour is isolated in its own try/catch so a failure in one can
@@ -297,6 +298,150 @@
       }
     } catch (err) {
       /* 3D-card failure must never take down the rest of the page */
+    }
+  })();
+
+  /* --- 5. Lesson dolly (scroll-linked zoom) -------------------------------- */
+  (function () {
+    try {
+      /* Camera-sympathy contract: cosmos.js reads this every frame, so the
+         object must always exist and never throw — even when dolly is off. */
+      window.__chalkDolly = window.__chalkDolly || { dip: 0 };
+
+      /* Reduced motion: zero visual changes to the planes. */
+      if (prefersReducedMotion()) {
+        return;
+      }
+
+      /* Collect the hero plane plus every lesson plane, in document order.
+         A plane is the inner content element; the outer section only provides
+         the document geometry. Skip any plane whose inner is missing. */
+      var planes = [];
+
+      var heroEl = document.getElementById('hero');
+      if (heroEl) {
+        var heroInner = heroEl.querySelector('.hero-inner');
+        if (heroInner) {
+          planes.push({ el: heroInner, docTop: 0, height: 0 });
+        }
+      }
+
+      var lessonEls = document.querySelectorAll('section.lesson[data-lesson]');
+      for (var k = 0; k < lessonEls.length; k++) {
+        var lessonInner = lessonEls[k].querySelector('.lesson-inner');
+        if (lessonInner) {
+          planes.push({ el: lessonInner, docTop: 0, height: 0 });
+        }
+      }
+
+      if (planes.length < 2) {
+        return;
+      }
+
+      var dollyTicking = false;
+      var lastScrollHeight = 0;
+
+      /** Recompute the cached geometry for every plane. Only this function
+          may read layout; the per-frame handler uses the cache alone. */
+      function cachePlanes() {
+        var scrollY = getScrollY();
+        for (var i = 0; i < planes.length; i++) {
+          var rect = planes[i].el.getBoundingClientRect();
+          planes[i].docTop = rect.top + scrollY;
+          planes[i].height = rect.height;
+        }
+        lastScrollHeight = document.documentElement.scrollHeight;
+      }
+
+      function updateDolly() {
+        dollyTicking = false;
+
+        /* Cheap guard: lazy images finishing loading shift layout, so refresh
+           the cached geometry whenever the document height changes. */
+        if (document.documentElement.scrollHeight !== lastScrollHeight) {
+          cachePlanes();
+        }
+
+        var vh = window.innerHeight;
+        var scrollY = getScrollY(); /* convert cached doc-space tops to viewport space */
+        var maxScroll = document.documentElement.scrollHeight - vh;
+        var i;
+        var dip = 0;
+
+        for (i = 0; i < planes.length; i++) {
+          var plane = planes[i];
+          var s = (vh + scrollY - plane.docTop) / (vh + plane.height);
+          if (s < 0) { s = 0; } else if (s > 1) { s = 1; }
+
+          /* Edge planes are pinned by the scroll limits and can never centre
+             their content, so at the scroll extremes clamp them to the resting
+             pose (s = 0.5) before the smoothstep. */
+          if (i === 0 && scrollY <= 0) {
+            s = Math.max(s, 0.5);
+          } else if (i === planes.length - 1 && maxScroll > 0 && scrollY >= maxScroll) {
+            s = Math.min(s, 0.5);
+          }
+
+          var s2 = s * s * (3 - 2 * s); /* smoothstep */
+
+          /* Departing lesson recedes; arriving lesson looms and settles. */
+          var scale = 1 + 0.12 * (0.5 - s2);
+          var opacity;
+          var ty;
+          if (s2 < 0.5) {
+            opacity = 2 * s2;                    /* entering: 0 -> 1      */
+            ty = 14 * (1 - 2 * s2);              /* loom from +14px        */
+          } else {
+            opacity = 1 - 0.9 * (s2 - 0.5);      /* departing floors 0.55  */
+            ty = -12 * (2 * s2 - 1);             /* recede to -12px        */
+          }
+
+          plane.el.style.transform =
+            'scale(' + scale.toFixed(4) + ') translateY(' + ty.toFixed(1) + 'px)';
+          plane.el.style.opacity = opacity.toFixed(3);
+
+          /* Promote only the planes mid-transition, then release. The zoom
+             band is wider than two adjacent plane steps, so at most two
+             planes ever hold will-change at once. */
+          if (s > 0.15 && s < 0.85) {
+            plane.el.style.willChange = 'transform, opacity';
+          } else if (plane.el.style.willChange === 'transform, opacity') {
+            plane.el.style.willChange = '';
+          }
+        }
+
+        /* Camera sympathy: find the active boundary (at most one qualifies)
+           and dip the cosmos camera toward it. */
+        for (i = 0; i < planes.length - 1; i++) {
+          var nextTop = planes[i + 1].docTop - scrollY;
+          if (nextTop > 0.34 * vh && nextTop < 0.66 * vh) {
+            var crossing = (0.66 * vh - nextTop) / (0.32 * vh);
+            dip = Math.sin(crossing * Math.PI);
+            break;
+          }
+        }
+
+        window.__chalkDolly = { dip: dip };
+      }
+
+      /* rAF-throttle: coalesce multiple scroll events into one update. */
+      function scheduleDolly() {
+        if (!dollyTicking) {
+          dollyTicking = true;
+          raf(updateDolly);
+        }
+      }
+
+      cachePlanes();
+
+      window.addEventListener('scroll', scheduleDolly, { passive: true });
+      window.addEventListener('resize', cachePlanes);
+      window.addEventListener('load', cachePlanes);
+
+      /* Draw once so planes sit at their resting pose before the first scroll. */
+      updateDolly();
+    } catch (err) {
+      /* lesson-dolly failure must never take down the rest of the page */
     }
   })();
 })();
