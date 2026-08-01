@@ -28,7 +28,7 @@ Visitors arrive from LinkedIn, GitHub, Google Scholar, resumes, or business card
 - Full WebGL/Three.js 3D hero world + scroll-driven 3D transformation; project cards with real depth (user-confirmed direction).
 - Contact via mailto:contact@clarencewongww.com (no server-side form — user chose this over form services).
 - Content: all current sections kept (About, Resume, Skills, Projects, Hire Me, footer); archived wording preserved, with the original typos corrected once (user request); no new sections requested yet.
-- Assets: reuse archived assets in old-web-resources/ (profile photo, 4 project thumbnails, hero background, loader.gif). Visual world is new; old look is not authority.
+- Assets: the reused images live in images/ (migrated from the old site; the local archive was removed per user request). Visual world is new; old look is not authority.
 - Socials preserved: LinkedIn (linkedin.com/in/clarencewongww), GitHub (github.com/clarencewongww), Google Scholar (scholar.google.com/citations?user=C7ygBNAAAAAJ).
 - Accessibility: content must remain visible and readable without WebGL; 3D is enhancement, not the content carrier.
 
@@ -42,10 +42,10 @@ Visitors arrive from LinkedIn, GitHub, Google Scholar, resumes, or business card
 
 ## Evidence on Hand
 
-- old-web-resources/site-content.md — full verbatim copy of all text
-- old-web-resources/all-links.md — catalog of every link
-- old-web-resources/images/ — profile-photo-clarence-wong.png, project-online-learning-prediction.jpg, project-chemapparatus.png (WebP content in .png container), project-agency-dash-dashboard.png, project-policy-book-chapter.png, hero-background-cover.jpg, loader.gif
-- old-web-resources/assets-manifest.md — full inventory with source URLs
+- index.html — single source of all page copy (archived text was migrated here; the local archive folder was removed per user request)
+- images/ — profile photo and the four project thumbnails
+- The original site's link inventory is preserved in the site itself (socials, project URLs, mailto)
+- DESIGN.md — the visual system record
 
 ## Product Principles
 

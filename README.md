@@ -5,7 +5,7 @@ A single-page portfolio for Clarence Wong (黄炜文): educator, learning design
 - **World:** The Chalkboard Cosmos — a classroom chalkboard redrawn as a 3D universe (WebGL/Three.js), scroll-driven.
 - **Tech:** Plain HTML/CSS/JS + Three.js (vendored). Zero build step — GitHub Pages ready.
 - **Vendored Three.js:** pinned to r160 (js/vendor/three.min.js). The r150+ UMD build emits a deprecation warning and will disappear in future releases — if upgrading, move to the ES-module build.
-- **Content:** Verbatim from the archived old site (see old-web-resources/ in the source project).
+- **Content:** Preserved from the original site; typos corrected.
 - **Contact:** mailto:contact@clarencewongww.com
 
 ## Run locally
