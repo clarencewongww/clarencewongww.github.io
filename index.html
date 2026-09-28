@@ -1,311 +1,1382 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clarence Wong — Educator / Data Analyst / Computer Science Student</title>
-<meta name="description" content="Accomplished data-driven professional specializing in quantitative analysis and statistical modeling, with extensive experience in educational data management.">
+<title>Clarence Wong — Learning Designer &amp; Data Analyst</title>
+<meta name="description" content="Clarence Wong — award-winning educator turned learning designer and data analyst. Harvard M.Ed. (4.00), Temasek Poly AI Diploma (4.00), first-author in the Journal of Chemical Education.">
 <meta name="author" content="Wong Wei Wen Clarence">
-<meta property="og:title" content="Clarence Wong — Educator / Learning Designer / Data Analyst / Computer Science Student">
+<meta property="og:title" content="Clarence Wong — Learning Designer &amp; Data Analyst">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://clarencewongww.github.io/">
-<meta property="og:description" content="Accomplished data-driven professional specializing in quantitative analysis and statistical modeling, with extensive experience in educational data management.">
+<meta property="og:description" content="Selected work, research and experience of Clarence Wong — learning designer and data analyst.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Kalam:wght@700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<script>document.documentElement.classList.remove('no-js'); document.documentElement.classList.add('js');</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   TOKENS & RESET
+   ========================================================================== */
+:root{
+  --bg:#0d0d0d;
+  --bg-2:#111114;
+  --ink:#fafafa;
+  --muted:#9b9ba4;
+  --line:rgba(250,250,250,.09);
+  --accent:#7c5cff;
+  --accent-soft:#a78fff;
+  --accent-dim:#3a2a80;
+  --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  --pad:clamp(1.25rem, 5vw, 5rem);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+html,body{height:auto}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:#0d0d0d}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+img,svg,canvas{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.mono{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:500;
+}
+.serif{font-family:var(--serif);font-weight:400}
+.accent{color:var(--accent)}
+.muted{color:var(--muted)}
+
+/* ==========================================================================
+   SKIP LINK / PROGRESS / NOISE
+   ========================================================================== */
+.skip-link{
+  position:fixed;top:1rem;left:1rem;z-index:200;
+  background:var(--accent);color:#0d0d0d;
+  padding:.6rem 1rem;border-radius:2px;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  transform:translateY(-300%);
+  transition:transform .25s ease;
+}
+.skip-link:focus{transform:translateY(0)}
+
+#progressBar{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:120;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:0 50%;
+  will-change:transform;
+}
+
+.noise{
+  position:fixed;inset:-50%;z-index:110;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem var(--pad);
+  background:linear-gradient(rgba(13,13,13,.85), rgba(13,13,13,0));
+}
+.nav-brand{display:flex;align-items:baseline;gap:.75rem}
+.nav-brand .mark{
+  font-family:var(--serif);font-size:1.35rem;line-height:1;letter-spacing:.02em;
+}
+.nav-brand .mark em{color:var(--accent);font-style:italic}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  position:relative;color:var(--muted);
+  transition:color .3s ease;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-4px;height:1px;width:100%;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .35s cubic-bezier(.65,0,.35,1);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  border:1px solid var(--line);border-radius:999px;
+  padding:.5rem 1.1rem;color:var(--ink);
+  transition:background-color .3s ease,color .3s ease,border-color .3s ease;
+}
+.nav-cta:hover{background:var(--accent);border-color:var(--accent);color:#0d0d0d}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 var(--pad) clamp(3rem,8vh,6rem);
+  overflow:hidden;
+}
+.hero-blobs{position:absolute;inset:0;pointer-events:none}
+.blob{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);
+  will-change:transform;
+}
+.blob--a{
+  width:46vw;height:46vw;min-width:340px;min-height:340px;
+  top:-12%;right:-8%;
+  background:radial-gradient(circle at 35% 35%, rgba(124,92,255,.5), rgba(124,92,255,0) 68%);
+  animation:drift-a 16s ease-in-out infinite alternate;
+}
+.blob--b{
+  width:34vw;height:34vw;min-width:260px;min-height:260px;
+  bottom:-10%;left:-6%;
+  background:radial-gradient(circle at 60% 40%, rgba(66,48,160,.55), rgba(66,48,160,0) 70%);
+  animation:drift-b 20s ease-in-out infinite alternate;
+}
+.blob--c{
+  width:20vw;height:20vw;min-width:180px;min-height:180px;
+  top:32%;left:38%;
+  background:radial-gradient(circle at 50% 50%, rgba(250,250,250,.10), rgba(250,250,250,0) 70%);
+  animation:drift-c 13s ease-in-out infinite alternate;
+}
+@keyframes drift-a{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-4vw,5vh,0) scale(1.08)}}
+@keyframes drift-b{from{transform:translate3d(0,0,0) scale(1.05)}to{transform:translate3d(5vw,-4vh,0) scale(1)}}
+@keyframes drift-c{from{transform:translate3d(0,0,0)}to{transform:translate3d(-6vw,-6vh,0)}}
+
+.hero-inner{position:relative;z-index:2;will-change:transform,opacity}
+.hero-kicker{
+  display:flex;align-items:center;gap:1rem;
+  color:var(--accent);margin-bottom:clamp(1rem,3vh,2rem);
+}
+.hero-kicker::before{content:"";width:2.5rem;height:1px;background:var(--accent)}
+.hero-name{
+  font-family:var(--serif);
+  font-size:clamp(3.8rem, 13.5vw, 12.5rem);
+  line-height:.88;letter-spacing:-.01em;font-weight:400;
+  text-wrap:balance;
+}
+.hero-name .line{display:block}
+.hero-name .line--indent{margin-left:clamp(2rem,14vw,14rem)}
+.hero-name em{font-style:italic;color:var(--accent-soft)}
+.hero-sub{
+  display:flex;flex-wrap:wrap;gap:2.5rem;align-items:flex-end;
+  margin-top:clamp(1.5rem,4vh,3rem);
+}
+.hero-role{font-size:clamp(1.05rem,1.6vw,1.4rem);font-weight:500;max-width:22ch}
+.hero-role em{font-family:var(--serif);font-style:italic;color:var(--accent-soft)}
+.hero-bio{max-width:34ch;color:var(--muted);font-size:.95rem;margin-left:auto}
+.hero-side{
+  position:absolute;right:var(--pad);top:50%;z-index:2;
+  transform:translateY(-50%) rotate(90deg);transform-origin:center;
+  color:var(--muted);white-space:nowrap;
+}
+.scroll-hint{
+  position:absolute;left:var(--pad);bottom:1.6rem;z-index:3;
+  display:flex;align-items:center;gap:.9rem;color:var(--muted);
+  will-change:transform,opacity;
+}
+.scroll-hint .track{width:1px;height:3rem;background:var(--line);overflow:hidden}
+.scroll-hint .track::after{
+  content:"";display:block;width:100%;height:100%;background:var(--accent);
+  transform-origin:0 0;
+  animation:hint 1.8s cubic-bezier(.65,0,.35,1) infinite;
+}
+@keyframes hint{0%{transform:scaleY(0)}45%{transform:scaleY(1);transform-origin:0 0}55%{transform-origin:0 100%;transform:scaleY(1)}100%{transform-origin:0 100%;transform:scaleY(0)}}
+
+/* ==========================================================================
+   SECTION SHELL
+   ========================================================================== */
+.section{position:relative;padding:clamp(6rem,14vh,11rem) var(--pad)}
+.section-kicker{
+  display:flex;align-items:center;gap:1rem;
+  color:var(--accent);margin-bottom:1.4rem;
+}
+.section-kicker::after{content:"";flex:0 0 2.5rem;height:1px;background:var(--accent)}
+.section-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.6rem,6vw,5.2rem);
+  line-height:1.02;letter-spacing:-.01em;
+}
+.section-title em{font-style:italic;color:var(--accent-soft)}
+
+/* ==========================================================================
+   SELECTED WORK — sticky header + asymmetric editorial cards
+   ========================================================================== */
+.work{padding-top:0}
+.work-head{
+  position:sticky;top:0;z-index:20;
+  padding:clamp(4.5rem,9vh,7rem) var(--pad) 2rem;
+  background:linear-gradient(rgba(13,13,13,.98) 74%, rgba(13,13,13,0));
+}
+.work-head .row{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
+.work-count{color:var(--muted)}
+.work-grid{
+  display:flex;flex-direction:column;
+  padding:0 var(--pad);
+  perspective:1400px;
+}
+.card{
+  position:relative;display:block;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transform-style:preserve-3d;
+  transition:border-color .4s ease;
+}
+.card:hover{border-color:rgba(124,92,255,.45)}
+.card--1{width:62%;align-self:flex-start;z-index:1}
+.card--2{width:38%;align-self:flex-end;margin-top:-9rem;z-index:2}
+.card--3{width:47%;align-self:flex-start;margin-top:-4rem;margin-left:7%;z-index:3}
+.card--4{width:56%;align-self:flex-end;margin-top:-7rem;z-index:4}
+.card-cover{
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.card--1 .card-cover{aspect-ratio:16/8.5}
+.card--2 .card-cover{aspect-ratio:4/3.4}
+.card--3 .card-cover{aspect-ratio:16/9.5}
+.card--4 .card-cover{aspect-ratio:16/7.5}
+.cover-pattern{
+  position:absolute;inset:-12%;
+  transition:transform .8s cubic-bezier(.22,1,.36,1);
+  will-change:auto;
+}
+.card:hover .cover-pattern{transform:scale(1.07)}
+.pattern--grid{
+  background:
+    radial-gradient(ellipse 80% 90% at 70% 20%, rgba(124,92,255,.34), transparent 65%),
+    repeating-linear-gradient(0deg, rgba(250,250,250,.055) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(250,250,250,.055) 0 1px, transparent 1px 44px),
+    #12101c;
+}
+.pattern--dots{
+  background:
+    radial-gradient(ellipse 70% 80% at 30% 80%, rgba(124,92,255,.30), transparent 60%),
+    radial-gradient(circle, rgba(250,250,250,.14) 1.2px, transparent 1.6px),
+    #101018;
+  background-size:auto, 30px 30px, auto;
+}
+.pattern--diag{
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 90%, rgba(124,92,255,.28), transparent 62%),
+    repeating-linear-gradient(45deg, rgba(250,250,250,.06) 0 1px, transparent 1px 22px),
+    #121019;
+}
+.pattern--rings{
+  background:
+    radial-gradient(ellipse 70% 90% at 20% 30%, rgba(124,92,255,.30), transparent 60%),
+    repeating-radial-gradient(circle at 78% 30%, rgba(250,250,250,.07) 0 1px, transparent 1px 34px),
+    #111018;
+}
+.cover-index{
+  position:absolute;right:1.4rem;bottom:-1.6rem;
+  font-family:var(--serif);
+  font-size:clamp(5rem,9vw,8.5rem);line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(250,250,250,.16);
+  pointer-events:none;
+}
+.cover-tag{
+  position:absolute;left:1.2rem;top:1.2rem;
+  color:var(--accent-soft);
+}
+.card-body{padding:1.6rem 1.6rem 1.5rem;transform:translateZ(34px)}
+.card-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.12;
+  margin-bottom:.55rem;
+  transition:color .3s ease;
+}
+.card:hover .card-title{color:var(--accent-soft)}
+.card-desc{color:var(--muted);font-size:.93rem;max-width:44ch}
+.card-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--line);
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:.45rem}
+.tag{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:999px;
+  padding:.28rem .7rem;color:var(--muted);
+}
+.card-year{color:var(--muted);white-space:nowrap}
+.card-arrow{
+  position:absolute;top:1.1rem;right:1.1rem;z-index:5;
+  width:2.4rem;height:2.4rem;border-radius:50%;
+  border:1px solid var(--line);
+  display:grid;place-items:center;
+  color:var(--ink);background:rgba(13,13,13,.4);
+  transform:translateZ(46px);
+  transition:background-color .3s ease,color .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.card:hover .card-arrow{background:var(--accent);color:#0d0d0d;transform:translateZ(46px) rotate(45deg)}
+.card-arrow svg{width:15px;height:15px}
+
+/* ==========================================================================
+   EXPERIENCE — alternating timeline with depth cues
+   ========================================================================== */
+.tl-wrap{position:relative;max-width:1200px;margin:5rem auto 0;perspective:1300px}
+.tl-spine{
+  position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(transparent, var(--line) 12%, var(--line) 88%, transparent);
+}
+.tl{position:relative;display:flex;flex-direction:column;gap:clamp(3.5rem,8vh,6rem)}
+.tl-item{
+  position:relative;width:calc(50% - 3rem);
+  transform-style:preserve-3d;
+}
+.tl-item:nth-child(odd){align-self:flex-start;text-align:right}
+.tl-item:nth-child(even){align-self:flex-end;text-align:left}
+.tl-item::before{
+  content:"";position:absolute;top:.9rem;
+  width:.55rem;height:.55rem;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 5px rgba(124,92,255,.14);
+}
+.tl-item:nth-child(odd)::before{right:calc(-3rem - .28rem)}
+.tl-item:nth-child(even)::before{left:calc(-3rem - .28rem)}
+.tl-date{color:var(--accent)}
+.tl-org{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.7rem,3vw,2.6rem);line-height:1.05;
+  margin:.55rem 0 .4rem;
+}
+.tl-role{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);opacity:.85;
+}
+.tl-desc{color:var(--muted);font-size:.92rem;margin-top:.8rem;max-width:44ch}
+.tl-item:nth-child(odd) .tl-desc{margin-left:auto}
+
+/* ==========================================================================
+   SKILLS — pinned horizontal ribbon, scrubbed by the master timeline
+   ========================================================================== */
+.skills{padding:0;height:240vh}
+.skills-viewport{
+  position:sticky;top:0;height:100vh;height:100svh;
+  overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.skills-word{
+  position:absolute;top:50%;left:0;z-index:0;
+  transform:translateY(-50%);
+  font-family:var(--serif);
+  font-size:clamp(14rem,36vw,34rem);line-height:1;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:1px rgba(250,250,250,.07);
+  pointer-events:none;
+  will-change:transform;
+}
+.skills-head{padding:0 var(--pad);margin-bottom:clamp(2rem,6vh,4rem);position:relative;z-index:2}
+.ribbon{
+  display:flex;gap:1.2rem;
+  padding:0 var(--pad);
+  width:max-content;
+  position:relative;z-index:1;
+  will-change:transform;
+}
+.chip{
+  display:flex;flex-direction:column;justify-content:space-between;gap:2.6rem;
+  min-width:290px;min-height:190px;
+  border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(160deg, rgba(250,250,250,.045), rgba(250,250,250,.012));
+  padding:1.4rem;
+  transition:border-color .35s ease,background-color .35s ease;
+}
+.chip:hover{border-color:rgba(124,92,255,.5)}
+.chip-top{display:flex;align-items:center;justify-content:space-between}
+.chip-icon{
+  width:2.7rem;height:2.7rem;border-radius:10px;
+  border:1px solid rgba(124,92,255,.4);
+  display:grid;place-items:center;color:var(--accent-soft);
+  background:rgba(124,92,255,.09);
+}
+.chip-icon svg{width:18px;height:18px}
+.chip-num{color:var(--muted)}
+.chip-name{display:block;font-family:var(--serif);font-size:1.55rem;line-height:1.1;font-weight:400}
+.chip-sub{display:block;color:var(--muted);font-size:.8rem;margin-top:.35rem}
+
+/* ==========================================================================
+   RESEARCH — big metrics + CSS 3D cuboid bar chart
+   ========================================================================== */
+.research-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:2.5rem;
+  align-items:start;margin-top:1rem;
+}
+.research-copy{grid-column:1/6;position:sticky;top:7rem}
+.research-copy p{color:var(--muted);max-width:40ch;margin-top:1.2rem}
+.research-copy .btn-row{margin-top:2rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.research-body{grid-column:6/13}
+.stats{
+  display:flex;gap:clamp(2rem,5vw,4.5rem);flex-wrap:wrap;
+  padding-bottom:2.6rem;border-bottom:1px solid var(--line);
+}
+.stat-num{
+  display:block;font-family:var(--serif);
+  font-size:clamp(3.6rem,7vw,6.4rem);line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.stat-num .pre{color:var(--accent-soft);font-style:italic}
+.stat-label{display:block;margin-top:.5rem;color:var(--muted)}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:999px;
+  padding:.75rem 1.4rem;color:var(--ink);
+  transition:background-color .3s ease,color .3s ease,border-color .3s ease;
+}
+.btn svg{width:14px;height:14px}
+.btn:hover{background:var(--accent);border-color:var(--accent);color:#0d0d0d}
+.btn--ghost{color:var(--muted)}
+.btn--ghost:hover{color:#0d0d0d}
+
+.chart-block{margin-top:3.5rem}
+.chart-title{color:var(--muted);margin-bottom:.4rem}
+.chart{
+  margin-top:2.5rem;
+  perspective:1150px;
+  display:flex;flex-direction:column;align-items:flex-start;
+}
+.chart-stage{
+  position:relative;
+  display:flex;align-items:flex-end;gap:clamp(3rem,6vw,5.5rem);
+  padding:0 2.5rem;
+  transform:rotateX(16deg) rotateY(-14deg);
+  transform-style:preserve-3d;
+  min-height:230px;
+}
+.chart-floor{
+  position:absolute;left:-6%;right:-6%;bottom:-1px;height:280px;
+  transform:rotateX(90deg);transform-origin:0 100%;
+  background:
+    repeating-linear-gradient(0deg, rgba(124,92,255,.16) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(124,92,255,.16) 0 1px, transparent 1px 40px);
+  -webkit-mask-image:linear-gradient(180deg, #000 20%, transparent 85%);
+  mask-image:linear-gradient(180deg, #000 20%, transparent 85%);
+  pointer-events:none;
+}
+.bar{
+  position:relative;width:74px;height:var(--h);
+  transform-style:preserve-3d;
+}
+.bar .f{position:absolute}
+.f--front{
+  inset:0;transform:translateZ(22px);
+  background:linear-gradient(180deg,#9a80ff,#5b3ce6);
+  display:flex;align-items:flex-start;justify-content:center;
+}
+.f--back{inset:0;transform:translateZ(-22px);background:#231a4e}
+.f--right{top:0;bottom:0;left:50%;width:44px;margin-left:-22px;transform:rotateY(90deg) translateZ(37px);background:#3a2a86}
+.f--left{top:0;bottom:0;left:50%;width:44px;margin-left:-22px;transform:rotateY(90deg) translateZ(-37px);background:#2b1f66}
+.f--top{
+  left:0;right:0;top:50%;height:44px;margin-top:-22px;
+  transform:rotateX(90deg) translateZ(calc(var(--h)/2));
+  background:#c3b3ff;
+}
+.bar-val{
+  font-family:var(--mono);font-size:.8rem;font-weight:500;
+  color:#0d0d0d;padding-top:.45rem;
+}
+.chart-labels{
+  display:flex;gap:clamp(3rem,6vw,5.5rem);
+  padding:1.2rem 2.5rem 0;
+}
+.chart-labels span{
+  width:120px;margin:0 -23px;text-align:center;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);line-height:1.6;
+}
+.chart-note{margin-top:1.6rem;color:var(--muted)}
+.pubs{margin-top:2.6rem;border-top:1px solid var(--line)}
+.pub-row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  padding:1.15rem 0;border-bottom:1px solid var(--line);
+  transition:opacity .3s ease;
+}
+.pub-row:hover{opacity:.75}
+.pub-main{display:flex;flex-direction:column;gap:.25rem;min-width:0}
+.pub-title{font-size:.98rem;font-weight:500}
+.pub-meta{color:var(--muted)}
+.pub-cites{white-space:nowrap;color:var(--accent-soft)}
+
+/* ==========================================================================
+   CONTACT — headline + lazy Three.js wireframe
+   ========================================================================== */
+.contact{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+#orbWrap{
+  position:absolute;top:0;right:0;bottom:0;width:58%;
+  pointer-events:none;z-index:0;
+}
+#orbWrap canvas{width:100%!important;height:100%!important}
+.contact-inner{position:relative;z-index:2}
+.contact-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(3.2rem,9vw,8.2rem);line-height:.98;letter-spacing:-.01em;
+  margin:1rem 0 2.4rem;
+}
+.contact-title em{font-style:italic;color:var(--accent-soft)}
+.contact-mail{
+  display:inline-block;position:relative;
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(1.3rem,2.6vw,2.1rem);
+  color:var(--ink);padding-bottom:.35rem;
+}
+.contact-mail::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--accent);
+  transform:scaleX(.22);transform-origin:0 50%;
+  transition:transform .5s cubic-bezier(.65,0,.35,1);
+}
+.contact-mail:hover::after{transform:scaleX(1)}
+.contact-links{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.4rem}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer{
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;
+  padding:2rem var(--pad);
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+.footer a{transition:color .3s ease}
+.footer a:hover{color:var(--ink)}
+
+/* ==========================================================================
+   REDUCED MOTION — every scroll effect becomes a simple opacity fade
+   ========================================================================== */
+.rm-hidden{opacity:0;transition:opacity .7s ease}
+.rm-hidden.rm-in{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .blob,.scroll-hint .track::after{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* ==========================================================================
+   MOBILE — disable heavy 3D, single column rhythm
+   ========================================================================== */
+@media (max-width: 900px){
+  .research-copy{position:static;grid-column:1/-1}
+  .research-body{grid-column:1/-1;margin-top:2rem}
+}
+@media (max-width: 767px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero-side{display:none}
+  .blob{filter:blur(56px)}
+  .work-head{padding-top:5rem}
+  .work-head .row{flex-direction:column;align-items:flex-start;gap:.4rem}
+  .card--1,.card--2,.card--3,.card--4{
+    width:100%;margin:0 0 1.4rem;align-self:stretch;
+  }
+  .work-grid{perspective:none}
+  .tl-spine{left:.3rem}
+  .tl-item,.tl-item:nth-child(odd),.tl-item:nth-child(even){
+    width:100%;align-self:stretch;text-align:left;padding-left:2rem;
+  }
+  .tl-item:nth-child(odd)::before,.tl-item:nth-child(even)::before{
+    left:-.02rem;right:auto;
+  }
+  .tl-item:nth-child(odd) .tl-desc{margin-left:0}
+  .skills{height:190vh}
+  .chip{min-width:230px;min-height:170px}
+  #orbWrap{width:100%;opacity:.5}
+  .chart-stage{padding:0 1rem;gap:2.2rem;transform:rotateX(10deg) rotateY(-8deg)}
+  .chart-labels{padding:1.2rem 1rem 0;gap:2.2rem}
+}
+</style>
 </head>
 <body>
-<!--
-DIRECTION CONTRACT — CHALKBOARD COSMOS
-THESIS: One scroll, one lesson: the site is a classroom chalkboard redrawn as a 3D cosmos — each section a lesson drawn in chalk, every data point a star. It refuses the portfolio default (photo hero + card grid) and its plain-resume opposite.
-OWN-WORLD: Chalkboard-green void; warm chalk white; dust gray; one amber accent for data and the CTA. Chalk strokes, dashed rules, constellation bonds, mono annotations. The cosmos is the only depth; the DOM stays flat on the board.
-STORY: A visitor meets an educator-turned-data-scientist: warmth first (the chalk, the teacher's voice), rigor on scroll (constellations of data, plotted evidence), and leaves knowing exactly how to reach him.
-FIRST VIEWPORT: Full-bleed board green; a rotating WebGL chalk cosmos — atoms and data points drawn in glowing chalk, bonds connecting them — his name in chalk hand-lettering, tagline as a chalk annotation, a "scroll to begin the lesson" cue, socials as chalk buttons.
-FORM: Chalkboard Cosmos — assigned by roll (seed ad37e246); no dealt staging fit this small archive; project cards carry real 3D depth.
--->
-<canvas id="cosmos" aria-hidden="true"></canvas>
 
-<div class="board">
+<!-- ==========================================================================
+ANIMATION ARCHITECTURE
+--------------------------------------------------------------------------------
+Scroll core : Lenis (smooth scroll) drives GSAP ScrollTrigger via a single
+              gsap.ticker. There is exactly ONE master scrubbed timeline
+              (buildMasterTimeline) with scrub:1, positioned in scroll-px
+              against the full document. It owns: progress hairline, hero
+              parallax/exit, scroll-hint fade, skills ribbon horizontal scrub
+              and the skills ghost-word counter-parallax. It is rebuilt on
+              resize / font load so positions stay accurate.
+Pinning     : "Selected Work" header and the skills viewport are pinned with
+              CSS position:sticky (not GSAP pin) so no pin-spacers distort the
+              master timeline's offset math.
+Entrances   : ScrollTrigger.batch() powers every repeated reveal: project
+              cards (rotateX + translateZ tilt-in), timeline entries
+              (alternating X + depth), stat counters, cuboid chart bars and
+              generic .rv fades. All once-only.
+Hover       : Card tilt/lift uses gsap.quickTo (rotationX/rotationY/y), bound
+              only after a card's entrance completes. Desktop + fine pointer
+              only. Inner content sits on translateZ layers for parallax.
+WebGL       : Three.js is lazy-loaded (dynamic script tag) only when the
+              contact section approaches the viewport. One wireframe
+              icosahedron; base self-rotation + lerped mouse tilt on a parent
+              group. Loop pauses off-screen / on hidden tabs. Skipped on
+              mobile and reduced-motion.
+Performance : transform + opacity only. will-change lives only on scrubbed or
+              actively-tweening elements (progress bar, hero, ribbon, blobs).
+              DPR capped at 2.
+Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
+              routes to IntersectionObserver opacity-only fade-ins; counters
+              snap to final values; no Lenis, no GSAP, no WebGL.
+=========================================================================== -->
 
-  <header class="lesson lesson--hero" id="hero">
-    <div class="hero-inner">
-      <div class="chalk-seal reveal" aria-hidden="true">
-        <svg viewBox="0 0 64 64">
-          <g fill="none" stroke="currentColor" stroke-width="2">
-            <ellipse cx="32" cy="32" rx="24" ry="10"/>
-            <ellipse cx="32" cy="32" rx="24" ry="10" transform="rotate(60 32 32)"/>
-            <ellipse cx="32" cy="32" rx="24" ry="10" transform="rotate(120 32 32)"/>
-          </g>
-          <circle cx="32" cy="32" r="4.5" fill="currentColor"/>
-        </svg>
+<a class="skip-link" href="#work">Skip to content</a>
+<div id="progressBar" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="nav-brand" href="#top" aria-label="Back to top">
+    <span class="mark">C<em>W</em></span>
+    <span class="mono muted">Portfolio — 2026</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a class="mono" href="#work">Work</a>
+    <a class="mono" href="#experience">Experience</a>
+    <a class="mono" href="#skills">Skills</a>
+    <a class="mono" href="#research">Research</a>
+    <a class="mono nav-cta" href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" id="top" aria-label="Introduction">
+    <div class="hero-blobs" aria-hidden="true">
+      <div class="blob blob--a" id="blobA"></div>
+      <div class="blob blob--b" id="blobB"></div>
+      <div class="blob blob--c" id="blobC"></div>
+    </div>
+
+    <p class="hero-side mono" aria-hidden="true">Learning Design — Data — Singapore / Cambridge MA</p>
+
+    <div class="hero-inner" id="heroInner">
+      <p class="hero-kicker mono">Learning Designer &amp; Data Analyst</p>
+      <h1 class="hero-name">
+        <span class="line">Clarence</span>
+        <span class="line line--indent">Wo<em>ng</em></span>
+      </h1>
+      <div class="hero-sub">
+        <p class="hero-role">From award-winning classrooms to <em>machine intelligence</em> — I design learning that data can prove.</p>
+        <p class="hero-bio">MOE Singapore educator. Harvard M.Ed. in Learning Design (4.00). Temasek Poly AI Diploma (4.00). First-author in the Journal of Chemical Education.</p>
       </div>
-      <h1 class="chalk-name">Clarence Wong</h1>
-      <p class="chalk-tagline mono">Educator / Learning Designer / Data Analyst / Computer Science Student</p>
-      <p class="chalk-note">— a lesson in data, drawn in chalk —</p>
-      <ul class="chalk-socials">
-        <li><a class="chalk-btn" href="https://www.linkedin.com/in/clarencewongww/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a class="chalk-btn" href="https://github.com/clarencewongww" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a class="chalk-btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
-      </ul>
-      <a class="hero-cue" href="#about">
-        <span class="mono">scroll to begin the lesson</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="6 14 12 20 18 14"/></svg>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+      <span class="mono">Scroll</span>
+      <span class="track"></span>
+    </div>
+  </section>
+
+  <!-- ============================== SELECTED WORK ============================== -->
+  <section class="section work" id="work" aria-labelledby="workTitle">
+    <div class="work-head">
+      <p class="section-kicker mono rv">01 — Selected Work</p>
+      <div class="row">
+        <h2 class="section-title rv" id="workTitle">Selected <em>Work</em></h2>
+        <p class="work-count mono rv">(04) shipped &amp; published</p>
+      </div>
+    </div>
+
+    <div class="work-grid">
+      <a class="card card--1" href="https://apps.clarencewongww.com/chemAPParatus" target="_blank" rel="noopener" aria-label="ChemAPParatus — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--grid"></div>
+          <span class="cover-tag mono">ML Web App</span>
+          <span class="cover-index" aria-hidden="true">01</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">ChemAPParatus</h3>
+          <p class="card-desc">AI-powered image classification that names chemistry lab apparatus from a photo — built for students, deployed on the web.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">Machine Learning</span><span class="tag">Web App</span><span class="tag">Python</span>
+            </span>
+            <span class="card-year mono">2022–23</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--2" href="https://apps.clarencewongww.com/onlinelearningapp" target="_blank" rel="noopener" aria-label="Online Learning Adaptivity — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--dots"></div>
+          <span class="cover-tag mono">ML Web App</span>
+          <span class="cover-index" aria-hidden="true">02</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Online Learning Adaptivity</h3>
+          <p class="card-desc">Machine-learning model predicting students' adaptivity to online learning, served as an interactive web app.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">Machine Learning</span><span class="tag">Data Analysis</span>
+            </span>
+            <span class="card-year mono">2022–23</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--3" href="https://agencydash.streamlit.app" target="_blank" rel="noopener" aria-label="Agency Dash — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--diag"></div>
+          <span class="cover-tag mono">Data Dashboard</span>
+          <span class="cover-index" aria-hidden="true">03</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Agency Dash</h3>
+          <p class="card-desc">Agency staffing dashboard with filters and summary statistics for at-a-glance decisions.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">Data Viz</span><span class="tag">Streamlit</span>
+            </span>
+            <span class="card-year mono">[Year]</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--4" href="https://www.amazon.com/dp/B0CZPQWVKQ" target="_blank" rel="noopener" aria-label="Learning Education Policy Analysis, Volume 2 — open publication">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--rings"></div>
+          <span class="cover-tag mono">Policy Book Chapter</span>
+          <span class="cover-index" aria-hidden="true">04</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Learning Education Policy Analysis to Make the World Better: Vol. 2</h3>
+          <p class="card-desc">Contributing chapter on education policy analysis, published in the Reimers-led volume.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">Policy</span><span class="tag">Research</span>
+            </span>
+            <span class="card-year mono">[Year]</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
       </a>
     </div>
-  </header>
+  </section>
 
-  <section class="lesson" id="about" data-lesson="01">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">01</span>
-      <h2 class="chalk-title reveal">About Me</h2>
-      <div class="about-grid">
-        <div class="about-info">
-          <div class="profile-ring reveal" data-delay="1">
-            <img src="images/profile-photo-clarence-wong.png" alt="Portrait of Clarence Wong" width="1080" height="1080" loading="lazy">
-          </div>
-          <ul class="info-chalk">
-            <li class="reveal" data-delay="2"><span class="mono dust">Full Name:</span> Clarence Wong （黄炜文）</li>
-            <li class="reveal" data-delay="3"><span class="mono dust">Email:</span> <a href="mailto:contact@clarencewongww.com">contact@clarencewongww.com</a></li>
-            <li class="reveal" data-delay="4"><span class="mono dust">Website:</span> www.clarencewongww.com</li>
-            <li class="reveal" data-delay="5"><span class="mono dust">Interests:</span> Data Analytics, Statistics, Chemistry, Education Technology, Pedagogy</li>
-          </ul>
-        </div>
-        <div class="about-text">
-          <h3 class="chalk-subtitle reveal">Hello There!</h3>
-          <p class="reveal" data-delay="1">I started my career in education with the Ministry of Education in Singapore (MOE). Through my time @ MOE, I gained insights into the education system in Singapore and how best to engage students to meet their learning needs.</p>
-          <p class="reveal" data-delay="2">I had an extremely rewarding career in my time @ MOE, winning multiple awards for innovative teaching and presented my ideas and project at the biennial teaching conference in Singapore.</p>
-          <p class="reveal" data-delay="3">As fulfilling as teaching can be, I am exploring my other interests as well - Data and Computer science. And I am currently working on credentials to get me there!</p>
-          <p class="reveal" data-delay="4">Scroll down to see more details on my professional and education background.</p>
-          <ul class="chalk-socials reveal" data-delay="5">
-            <li><a class="chalk-btn" href="https://www.linkedin.com/in/clarencewongww/" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a class="chalk-btn" href="https://github.com/clarencewongww" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a class="chalk-btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
-          </ul>
-        </div>
-      </div>
+  <!-- ============================== EXPERIENCE ============================== -->
+  <section class="section" id="experience" aria-labelledby="expTitle">
+    <p class="section-kicker mono rv">02 — Experience</p>
+    <h2 class="section-title rv" id="expTitle">The road <em>here</em></h2>
+
+    <div class="tl-wrap">
+      <span class="tl-spine" aria-hidden="true"></span>
+      <ol class="tl">
+        <li class="tl-item">
+          <span class="tl-date mono">2019 — 2024</span>
+          <h3 class="tl-org">Ministry of Education, Singapore</h3>
+          <p class="tl-role">Educator · General Education Officer</p>
+          <p class="tl-desc">Award-winning teacher. Led data-driven curriculum enhancement through statistical modelling of school-level data, and presented at the national biennial teaching conference.</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-date mono">Sep — Dec 2023</span>
+          <h3 class="tl-org">Entrepreneurship Lab</h3>
+          <p class="tl-role">Analyst · MIT Sloan × SpaceSense.ai</p>
+          <p class="tl-desc">Primary and secondary market research; turned data into go-to-market recommendations alongside the founder and CEO.</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-date mono">2023 — 2024</span>
+          <h3 class="tl-org">Harvard University</h3>
+          <p class="tl-role">M.Ed. · Learning Design, Innovation &amp; Technology</p>
+          <p class="tl-desc">Graduated with a 4.00 GPA. Cross-registered at MIT Sloan and Harvard Kennedy School; coursework in machine learning and big-data analytics.</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-date mono">2022 — 2023</span>
+          <h3 class="tl-org">Temasek Polytechnic</h3>
+          <p class="tl-role">Specialist Diploma · AI Solutions Development</p>
+          <p class="tl-desc">Graduated with a 4.00 GPA, shipping real-world AI-driven web applications with Python, deep learning and transfer learning.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <section class="lesson" id="resume" data-lesson="02">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">02</span>
-      <h2 class="chalk-title reveal">My Resume</h2>
-      <div class="timeline-chalk">
-        <h3 class="timeline-heading chalk-subtitle reveal">Work Experience</h3>
-        <ul class="timeline">
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">General Education Officer</h4>
-              <p class="timeline-meta mono">Ministry of Education - Singapore <span class="data-amber">(2019 - 2024)</span></p>
-              <p class="timeline-desc">As a General Education Officer at the Singapore Ministry of Education, I spearheaded data-driven curriculum enhancements by utilizing statistical modeling and comprehensive analysis of school-level data. I was recognized for innovative teaching and practices, receiving awards for my contributions to education.</p>
-            </div>
-          </li>
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">Entrepreneurship Lab Analyst</h4>
-              <p class="timeline-meta mono">MIT Sloan, SPACESENSE.AI <span class="data-amber">(Sep 2023 - Dec 2023)</span></p>
-              <p class="timeline-desc">As an Entrepreneurship Lab Analyst, I conducted in-depth primary and secondary market research, employing advanced data collection and analysis methods to extract actionable insights from market trends. I collaborated closely with the Founder and CEO, using these data-driven insights to develop and recommend go-to-market strategies that informed key strategic decisions.</p>
-            </div>
-          </li>
-        </ul>
-        <h3 class="timeline-heading chalk-subtitle reveal">Education</h3>
-        <ul class="timeline">
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">Masters Degree</h4>
-              <p class="timeline-meta mono">Harvard University <span class="data-amber">(2023 - 2024)</span></p>
-              <p class="timeline-desc">I earned a Master of Education in Learning Design, Innovation, and Technology from Harvard University, graduating with a 4.00 GPA, and concentrated on Global, International, and Comparative Education. My coursework included advanced quantitative analysis, machine learning, and big data analytics, with cross-registrations at MIT Sloan, Harvard Kennedy School, and Harvard Divinity School, enhancing my proficiency in R, Python, and data-driven research.</p>
-            </div>
-          </li>
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">Specialist Diploma in Artificial Intelligence Solutions Development</h4>
-              <p class="timeline-meta mono">Temasek Polytechnic <span class="data-amber">(2022 - 2023)</span></p>
-              <p class="timeline-desc">I completed a Specialist Diploma in Artificial Intelligence Solutions Development from Temasek Polytechnic, graduating with a 4.00 GPA, where I developed real-world AI-driven web applications. My projects included creating ChemAPParatus, an AI-powered image classification app for chemistry lab apparatus, optimizing image classification models on the CIFAR-10 dataset, and developing a machine learning model to predict students' adaptivity to online learning, showcasing my skills in deep learning, transfer learning, and web app deployment using Python and related libraries.</p>
-            </div>
-          </li>
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">Postgraduate Diploma in Education</h4>
-              <p class="timeline-meta mono">National Institute of Education - NTU <span class="data-amber">(2019 - 2021)</span></p>
-              <p class="timeline-desc">During my time at NTU-NIE, I developed strong proficiencies in teaching, with a focus on chemistry and physics. The program covered essential topics such as classroom management and parent engagement, culminating in a 10-week practicum that included eight lesson observations by senior educators and a professor.</p>
-            </div>
-          </li>
-          <li class="timeline-item reveal">
-            <span class="timeline-node" aria-hidden="true"></span>
-            <div class="timeline-body">
-              <h4 class="timeline-title">Bachelor of Science (Honours)</h4>
-              <p class="timeline-meta mono">National University of Singapore <span class="data-amber">(2015 - 2019)</span></p>
-              <p class="timeline-desc">I graduated with Highest Distinction and First-Class Honours from the National University of Singapore, earning a Bachelor of Science in Chemistry. As a government scholarship recipient and Dean's List awardee, I also published as the first author in the peer-reviewed Journal of Chemical Education. Check out my <a href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar profile</a> for details.</p>
-            </div>
-          </li>
-        </ul>
+  <!-- ============================== SKILLS (pinned ribbon) ============================== -->
+  <section class="skills" id="skills" aria-labelledby="skillsTitle">
+    <div class="skills-viewport">
+      <span class="skills-word" id="skillsWord" aria-hidden="true">Toolkit</span>
+      <div class="skills-head">
+        <p class="section-kicker mono rv">03 — Skills</p>
+        <h2 class="section-title rv" id="skillsTitle">What I <em>reach for</em></h2>
       </div>
-    </div>
-  </section>
-
-  <section class="lesson" id="skills" data-lesson="03">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">03</span>
-      <h2 class="chalk-title reveal">My Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="16" y="16" width="32" height="32" rx="6"/><line x1="24" y1="10" x2="24" y2="16"/><line x1="40" y1="10" x2="40" y2="16"/><line x1="24" y1="48" x2="24" y2="54"/><line x1="40" y1="48" x2="40" y2="54"/><line x1="10" y1="24" x2="16" y2="24"/><line x1="10" y1="40" x2="16" y2="40"/><line x1="48" y1="24" x2="54" y2="24"/><line x1="48" y1="40" x2="54" y2="40"/></g></svg>
-          <h3 class="skill-title">Machine Learning</h3>
-          <p class="skill-desc">Developed and optimized models including image classification and predictive analytics.</p>
-        </div>
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 44 24 32 34 38 56 16"/><line x1="8" y1="56" x2="56" y2="56"/></g></svg>
-          <h3 class="skill-title">Data Analysis</h3>
-          <p class="skill-desc">Expertise in quantitative analysis, statistical modelling and big data analytics.</p>
-        </div>
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="22"/><ellipse cx="32" cy="32" rx="10" ry="22"/><line x1="10" y1="32" x2="54" y2="32"/></g></svg>
-          <h3 class="skill-title">Web Development for AI Apps</h3>
-          <p class="skill-desc">Created web applications with Flask backend and integrated AI models.</p>
-        </div>
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M32 20c-4-6-12-7-16-3v30c4-4 12-3 16 3z"/><path d="M32 20c4-6 12-7 16-3v30c-4-4-12-3-16 3z"/></g></svg>
-          <h3 class="skill-title">Research</h3>
-          <p class="skill-desc">Published research in peer-reviewed journals and developed data-driven strategies.</p>
-        </div>
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="14" y="8" width="36" height="48" rx="4"/><line x1="22" y1="18" x2="42" y2="18"/><circle cx="24" cy="30" r="2"/><circle cx="32" cy="30" r="2"/><circle cx="40" cy="30" r="2"/><circle cx="24" cy="40" r="2"/><circle cx="32" cy="40" r="2"/><circle cx="40" cy="40" r="2"/><circle cx="32" cy="50" r="2"/></g></svg>
-          <h3 class="skill-title">Statistical Modelling</h3>
-          <p class="skill-desc">Utilized advanced statistical software for data visualization and modeling.</p>
-        </div>
-        <div class="skill-card reveal">
-          <svg class="chalk-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="22" cy="22" r="8"/><path d="M6 52c2-10 8-15 16-15s14 5 16 15"/><circle cx="44" cy="24" r="6"/><path d="M42 38c8 0 14 4 16 12"/></g></svg>
-          <h3 class="skill-title">Team Collaboration</h3>
-          <p class="skill-desc">Led teams in educational data projects and collaborated cross-functionally.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="lesson" id="publications" data-lesson="04">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">04</span>
-      <h2 class="chalk-title reveal">Publications</h2>
-      <p class="lesson-lead reveal">Peer-reviewed chemistry education research — including a first-author publication in the Journal of Chemical Education.</p>
-      <div class="pub-stats reveal">
-        <div class="pub-stat">
-          <span class="pub-stat__num data-amber">48</span>
-          <span class="pub-stat__label mono">Citations</span>
-        </div>
-        <div class="pub-stat">
-          <span class="pub-stat__num data-amber">2</span>
-          <span class="pub-stat__label mono">h-index</span>
-        </div>
-        <div class="pub-stat">
-          <span class="pub-stat__num data-amber">1</span>
-          <span class="pub-stat__label mono">i10-index</span>
-        </div>
-      </div>
-      <p class="pub-note mono reveal">Google Scholar profile · counts as of Aug 2026</p>
-      <div class="pub-list">
-        <a class="pub-card reveal" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=C7ygBNAAAAAJ&amp;citation_for_view=C7ygBNAAAAAJ:u-x6o8ySG0sC" target="_blank" rel="noopener">
-          <span class="pub-card__main">
-            <span class="pub-card__title">A Study To Reduce Chemical Waste Generated in Chemistry Teaching Laboratories</span>
-            <span class="pub-card__meta mono">HY Goh, WWC Wong, YY Ong — Journal of Chemical Education, 97(1), 87–96, 2019</span>
-          </span>
-          <span class="pub-card__cites mono"><span class="data-amber">40</span> citations ↗</span>
-        </a>
-        <a class="pub-card reveal" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=C7ygBNAAAAAJ&amp;citation_for_view=C7ygBNAAAAAJ:u5HHmVD_uO8C" target="_blank" rel="noopener">
-          <span class="pub-card__main">
-            <span class="pub-card__title">Understanding the Specific Technical Requirements Needed for Successful Transitioning to a Workplace and the Chemistry Undergraduate Course Syllabi: A Case Study</span>
-            <span class="pub-card__meta mono">CWW Wong, HY Goh, YY Ong — Journal of Chemical Education, 97(1), 72–79, 2019</span>
-          </span>
-          <span class="pub-card__cites mono"><span class="data-amber">8</span> citations ↗</span>
-        </a>
-      </div>
-      <p class="pub-more reveal"><a class="chalk-btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">View Full Profile on Google Scholar</a></p>
-    </div>
-  </section>
-
-  <section class="lesson" id="projects" data-lesson="05">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">05</span>
-      <h2 class="chalk-title reveal">My Projects</h2>
-      <div class="projects-grid">
-        <a class="card-3d reveal" href="https://apps.clarencewongww.com/onlinelearningapp" target="_blank" rel="noopener">
-          <span class="card-3d__img"><img src="images/project-online-learning-prediction.jpg" alt="Illustration of students learning online with an open book on a laptop screen" loading="lazy"></span>
-          <span class="card-3d__body">
-            <span class="card-3d__tag mono">ML Web App</span>
-            <span class="card-3d__title">Prediction of Student's Adaptivity Level of Online Learning</span>
-            <span class="card-3d__arrow" aria-hidden="true">↗</span>
-          </span>
-        </a>
-        <a class="card-3d reveal" href="https://apps.clarencewongww.com/chemAPParatus" target="_blank" rel="noopener">
-          <span class="card-3d__img"><img src="images/project-chemapparatus.png" alt="Chemistry laboratory apparatus — glassware filled with colorful liquids" loading="lazy"></span>
-          <span class="card-3d__body">
-            <span class="card-3d__tag mono">ML Web App</span>
-            <span class="card-3d__title">ChemAPParatus</span>
-            <span class="card-3d__arrow" aria-hidden="true">↗</span>
-          </span>
-        </a>
-        <a class="card-3d reveal" href="https://agencydash.streamlit.app" target="_blank" rel="noopener">
-          <span class="card-3d__img"><img src="images/project-agency-dash-dashboard.png" alt="Screenshot of the Agency Staff Dashboard with filters and summary statistics" loading="lazy"></span>
-          <span class="card-3d__body">
-            <span class="card-3d__tag mono">Data Dashboard</span>
-            <span class="card-3d__title">Agency Dash</span>
-            <span class="card-3d__arrow" aria-hidden="true">↗</span>
-          </span>
-        </a>
-        <a class="card-3d reveal" href="https://www.amazon.com/-/es/dp/B0CZPQWVKQ/ref=sr_1_1?__mk_es_US=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;crid=1GXY7084N9JRM&amp;dib=eyJ2IjoiMSJ9.Sx05OIYcpdbc3AEcb2lLTX6qij2goELRFhq-XEeUqw-G_OClYABWxQzRkwa_3L2e08FpjJFZ5caqMJmTqNxNP0qTknWgsW_V4dRoal-fvfUxaZ2MGo2JSi-Db_prLjvneF6-L-PMC-wUufoDlC0yEqunn2-WW8mWXwN5ekfEM-UleXj1cS82gCPeWmKOpSW7MUw9d6YAcbYW2bspMSNV0tssDFuobT-1gfC_e6SoLqs.R2trFl1UIod07bZK4PlFlyoAEad3vroXY2TvDWBOprQ&amp;dib_tag=se&amp;keywords=reimers+learning+education+policy&amp;qid=1712227624&amp;sprefix=reimers+learning+education+policy%2Caps%2C98&amp;sr=8-1" target="_blank" rel="noopener">
-          <span class="card-3d__img"><img src="images/project-policy-book-chapter.jpg" alt="Cover of the book Learning Education Policy Analysis to Make the World Better, Volume 2" loading="lazy"></span>
-          <span class="card-3d__body">
-            <span class="card-3d__tag mono">Policy Book Chapter</span>
-            <span class="card-3d__title">Learning Education Policy Analysis To Make the World Better: Volume 2</span>
-            <span class="card-3d__arrow" aria-hidden="true">↗</span>
-          </span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="lesson" id="contact" data-lesson="06">
-    <div class="lesson-inner">
-      <span class="lesson-num mono" aria-hidden="true">06</span>
-      <h2 class="chalk-title reveal">Hire Me!</h2>
-      <p class="lesson-lead reveal">Accomplished data-driven professional with extensive expertise in quantitative analysis and statistical modelling, gained through extensive experience in educational data management. Proven track record of leveraging data to drive actionable insights, inform decision-making, and enhance team performance.</p>
-      <a class="chalk-btn chalk-btn--big reveal" href="mailto:contact@clarencewongww.com">Contact Me</a>
-      <ul class="chalk-socials reveal">
-        <li><a class="chalk-btn" href="https://www.linkedin.com/in/clarencewongww/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a class="chalk-btn" href="https://github.com/clarencewongww" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a class="chalk-btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
+      <ul class="ribbon" id="ribbon">
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="brain"></i></span><span class="chip-num mono">01</span></span>
+          <span><span class="chip-name">Machine Learning</span><span class="chip-sub">Classification, predictive models, transfer learning</span></span>
+        </li>
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="database"></i></span><span class="chip-num mono">02</span></span>
+          <span><span class="chip-name">Data Analysis</span><span class="chip-sub">Quantitative analysis, big-data workflows</span></span>
+        </li>
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="globe"></i></span><span class="chip-num mono">03</span></span>
+          <span><span class="chip-name">Web Dev for AI Apps</span><span class="chip-sub">Python backends, model deployment</span></span>
+        </li>
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="microscope"></i></span><span class="chip-num mono">04</span></span>
+          <span><span class="chip-name">Research</span><span class="chip-sub">Peer-reviewed, first-author publication</span></span>
+        </li>
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="sigma"></i></span><span class="chip-num mono">05</span></span>
+          <span><span class="chip-name">Statistical Modelling</span><span class="chip-sub">R, Python, data-driven inference</span></span>
+        </li>
+        <li class="chip">
+          <span class="chip-top"><span class="chip-icon"><i data-lucide="users"></i></span><span class="chip-num mono">06</span></span>
+          <span><span class="chip-name">Team Collaboration</span><span class="chip-sub">Cross-functional leadership</span></span>
+        </li>
       </ul>
     </div>
   </section>
 
-  <footer class="board-footer">
-    <p>© 2026 Clarence Wong. All Rights Reserved. <br>Designed by <a href="https://clarencewongww.github.io/">Clarence Wong</a></p>
-    <p class="back-top"><a href="#hero">↑ back to the top of the board</a></p>
-  </footer>
+  <!-- ============================== RESEARCH ============================== -->
+  <section class="section" id="research" aria-labelledby="researchTitle">
+    <div class="research-grid">
+      <div class="research-copy">
+        <p class="section-kicker mono rv">04 — Research</p>
+        <h2 class="section-title rv" id="researchTitle">Published &amp; <em>cited</em></h2>
+        <p class="rv">First-author in the peer-reviewed Journal of Chemical Education — chemistry education research that other researchers build on.</p>
+        <div class="btn-row rv">
+          <a class="btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">
+            Google Scholar <i data-lucide="arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
 
-</div>
+      <div class="research-body">
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-num" data-target="48" data-prefix=""><span class="pre"></span>48</span>
+            <span class="stat-label mono">Citations</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-target="2" data-prefix="h-"><span class="pre">h-</span>2</span>
+            <span class="stat-label mono">h-index</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-target="1" data-prefix="i10-"><span class="pre">i10-</span>1</span>
+            <span class="stat-label mono">i10-index</span>
+          </div>
+        </div>
 
-<nav class="lesson-rail" aria-label="Sections">
-  <a class="lesson-dot" href="#hero" data-target="hero" data-label="Start" aria-label="Start — top of page"><span class="mono">00</span></a>
-  <a class="lesson-dot" href="#about" data-target="about" data-label="About Me" aria-label="About Me section"><span class="mono">01</span></a>
-  <a class="lesson-dot" href="#resume" data-target="resume" data-label="My Resume" aria-label="My Resume section"><span class="mono">02</span></a>
-  <a class="lesson-dot" href="#skills" data-target="skills" data-label="My Skills" aria-label="My Skills section"><span class="mono">03</span></a>
-  <a class="lesson-dot" href="#publications" data-target="publications" data-label="Publications" aria-label="Publications section"><span class="mono">04</span></a>
-  <a class="lesson-dot" href="#projects" data-target="projects" data-label="My Projects" aria-label="My Projects section"><span class="mono">05</span></a>
-  <a class="lesson-dot" href="#contact" data-target="contact" data-label="Hire Me" aria-label="Hire Me section"><span class="mono">06</span></a>
-</nav>
-<div class="progress-chalk" aria-hidden="true"><span class="progress-chalk__bar"></span></div>
+        <div class="chart-block">
+          <p class="chart-title mono rv">Citations by publication</p>
+          <div class="chart" role="img" aria-label="3D bar chart of citations per publication: Reduce Chemical Waste, 40 citations; Workplace Transition, 8 citations.">
+            <div class="chart-stage" id="chartStage">
+              <div class="chart-floor" aria-hidden="true"></div>
+              <div class="bar" style="--h:170px">
+                <div class="f f--front"><span class="bar-val">40</span></div>
+                <div class="f f--back"></div>
+                <div class="f f--right"></div>
+                <div class="f f--left"></div>
+                <div class="f f--top"></div>
+              </div>
+              <div class="bar" style="--h:50px">
+                <div class="f f--front"><span class="bar-val">8</span></div>
+                <div class="f f--back"></div>
+                <div class="f f--right"></div>
+                <div class="f f--left"></div>
+                <div class="f f--top"></div>
+              </div>
+            </div>
+            <div class="chart-labels">
+              <span>Reduce Chemical Waste · 2019</span>
+              <span>Workplace Transition · 2019</span>
+            </div>
+          </div>
+          <p class="chart-note mono rv">Bar heights scaled for legibility · Counts via Google Scholar</p>
+        </div>
 
-<script src="js/vendor/three.min.js"></script>
-<script src="js/cosmos.js"></script>
-<script src="js/main.js"></script>
+        <div class="pubs">
+          <a class="pub-row rv" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=C7ygBNAAAAAJ&amp;citation_for_view=C7ygBNAAAAAJ:u-x6o8ySG0sC" target="_blank" rel="noopener">
+            <span class="pub-main">
+              <span class="pub-title">A Study to Reduce Chemical Waste Generated in Chemistry Teaching Laboratories</span>
+              <span class="pub-meta mono">HY Goh, WWC Wong, YY Ong — J. Chem. Educ. 97(1), 2019</span>
+            </span>
+            <span class="pub-cites mono">40 cited</span>
+          </a>
+          <a class="pub-row rv" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=C7ygBNAAAAAJ&amp;citation_for_view=C7ygBNAAAAAJ:u5HHmVD_uO8C" target="_blank" rel="noopener">
+            <span class="pub-main">
+              <span class="pub-title">Understanding the Technical Requirements for Transitioning to a Workplace and the Chemistry Undergraduate Course Syllabi</span>
+              <span class="pub-meta mono">CWW Wong, HY Goh, YY Ong — J. Chem. Educ. 97(1), 2019</span>
+            </span>
+            <span class="pub-cites mono">8 cited</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CONTACT ============================== -->
+  <section class="section contact" id="contact" aria-labelledby="contactTitle">
+    <div id="orbWrap" aria-hidden="true"></div>
+    <div class="contact-inner">
+      <p class="section-kicker mono rv">05 — Contact</p>
+      <h2 class="contact-title rv" id="contactTitle">Let's work<br><em>together.</em></h2>
+      <div class="rv">
+        <a class="contact-mail" href="mailto:contact@clarencewongww.com">contact@clarencewongww.com</a>
+      </div>
+      <div class="contact-links rv">
+        <a class="btn" href="https://www.linkedin.com/in/clarencewongww/" target="_blank" rel="noopener"><i data-lucide="linkedin"></i> LinkedIn</a>
+        <a class="btn" href="https://github.com/clarencewongww" target="_blank" rel="noopener"><i data-lucide="github"></i> GitHub</a>
+        <a class="btn btn--ghost" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener"><i data-lucide="graduation-cap"></i> Scholar</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="mono">© 2026 Clarence Wong</p>
+  <p class="mono">Designed &amp; built with GSAP · Lenis · Three.js</p>
+  <a class="mono" href="#top">Back to top</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------
+     Environment flags
+  ------------------------------------------------------------------ */
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.matchMedia('(max-width: 767px)').matches;
+  var libsReady = !!(window.gsap && window.ScrollTrigger && window.Lenis);
+  var lenis = null;
+
+  /* ------------------------------------------------------------------
+     Icons (Lucide)
+  ------------------------------------------------------------------ */
+  function initIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Fallback mode — reduced motion, mobile, or CDN unavailable.
+     Every scroll effect degrades to an opacity-only fade-in.
+  ------------------------------------------------------------------ */
+  function initFallback() {
+    document.documentElement.classList.add('rm');
+    var targets = document.querySelectorAll('.rv, .card, .tl-item, .chip, .bar, .stat');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('rm-in'); });
+      return;
+    }
+    targets.forEach(function (el) { el.classList.add('rm-hidden'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('rm-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ------------------------------------------------------------------
+     Smooth scroll — Lenis wired into GSAP's ticker
+  ------------------------------------------------------------------ */
+  function initSmoothScroll() {
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* ------------------------------------------------------------------
+     Anchor navigation through Lenis
+  ------------------------------------------------------------------ */
+  function initAnchorNav() {
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href');
+        if (id.length < 2) return;
+        var target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { duration: 1.4 });
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     THE ONE MASTER TIMELINE — scrub:1 across the whole document.
+     Positions are scroll-px; rebuilt whenever layout metrics change.
+  ------------------------------------------------------------------ */
+  var masterTL = null;
+
+  function pageY(el) {
+    return el.getBoundingClientRect().top + window.scrollY;
+  }
+
+  function buildMasterTimeline() {
+    if (masterTL) {
+      masterTL.scrollTrigger.kill();
+      masterTL.kill();
+      masterTL = null;
+    }
+    var main = document.getElementById('main');
+    var vh = window.innerHeight;
+    var total = Math.max(1, main.scrollHeight - vh);
+
+    masterTL = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        id: 'master',
+        trigger: main,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1
+      }
+    });
+
+    /* Progress hairline — full scroll */
+    masterTL.fromTo('#progressBar', { scaleX: 0 }, { scaleX: 1, duration: total }, 0);
+
+    /* Hero — foreground exits slower than the depth layers recede */
+    masterTL.to('#heroInner', { yPercent: -16, opacity: 0, duration: vh * 0.9 }, 0);
+    masterTL.to('#scrollHint', { opacity: 0, y: -14, duration: vh * 0.28 }, 0);
+    masterTL.to('#blobA', { yPercent: -30, duration: vh }, 0);
+    masterTL.to('#blobB', { yPercent: -52, duration: vh }, 0);
+    masterTL.to('#blobC', { yPercent: -70, duration: vh }, 0);
+
+    /* Skills — horizontal ribbon scrubbed across the tall section */
+    var skillsSec = document.getElementById('skills');
+    var ribbon = document.getElementById('ribbon');
+    var skillsWord = document.getElementById('skillsWord');
+    var sStart = pageY(skillsSec);
+    var sRange = Math.max(1, skillsSec.offsetHeight - vh);
+    var dist = Math.max(0, ribbon.scrollWidth - ribbon.parentElement.clientWidth + window.innerWidth * 0.06);
+
+    masterTL.fromTo(ribbon, { x: 0 }, { x: -dist, duration: sRange }, sStart);
+    masterTL.fromTo(skillsWord, { xPercent: 4 }, { xPercent: -18, duration: sRange }, sStart);
+  }
+
+  function scheduleMasterBuild() {
+    buildMasterTimeline();
+    ScrollTrigger.refresh();
+  }
+
+  /* ------------------------------------------------------------------
+     Batch reveals — every repeated entrance runs through
+     ScrollTrigger.batch, once per element.
+  ------------------------------------------------------------------ */
+  function willChangeOff() {
+    return { clearProps: 'willChange' };
+  }
+
+  function initBatchReveals() {
+    /* Project cards — 3D tilt-in (rotateX + translateZ) with stagger */
+    if (!isMobile) {
+      gsap.set('.card', {
+        opacity: 0, y: 90, rotationX: -16, z: -110,
+        transformPerspective: 1200, willChange: 'transform, opacity'
+      });
+    } else {
+      gsap.set('.card', { opacity: 0, y: 36, willChange: 'transform, opacity' });
+    }
+    ScrollTrigger.batch('.card', {
+      start: 'top 88%',
+      once: true,
+      onEnter: function (els) {
+        gsap.to(els, {
+          opacity: 1, y: 0, rotationX: 0, z: 0,
+          duration: 1.15, ease: 'power3.out', stagger: 0.14,
+          overwrite: true,
+          onComplete: function () {
+            gsap.set(els, willChangeOff());
+            els.forEach(function (el) { el.classList.add('is-in'); });
+          }
+        });
+      }
+    });
+
+    /* Timeline entries — alternate sides, recede in Z before arriving */
+    var tlItems = gsap.utils.toArray('.tl-item');
+    tlItems.forEach(function (el, i) {
+      var fromLeft = i % 2 === 0;
+      if (!isMobile) {
+        gsap.set(el, {
+          opacity: 0, x: fromLeft ? -110 : 110, z: -170,
+          rotationY: fromLeft ? 9 : -9,
+          transformPerspective: 1300, willChange: 'transform, opacity'
+        });
+      } else {
+        gsap.set(el, { opacity: 0, y: 30, willChange: 'transform, opacity' });
+      }
+    });
+    ScrollTrigger.batch('.tl-item', {
+      start: 'top 86%',
+      once: true,
+      onEnter: function (els) {
+        gsap.to(els, {
+          opacity: 1, x: 0, y: 0, z: 0, rotationY: 0,
+          duration: 1.05, ease: 'power3.out', stagger: 0.16,
+          overwrite: true,
+          onComplete: function () { gsap.set(els, willChangeOff()); }
+        });
+      }
+    });
+
+    /* Generic fade-up reveals */
+    gsap.set('.rv', { opacity: 0, y: 36, willChange: 'transform, opacity' });
+    ScrollTrigger.batch('.rv', {
+      start: 'top 90%',
+      once: true,
+      onEnter: function (els) {
+        gsap.to(els, {
+          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          stagger: 0.09, overwrite: true,
+          onComplete: function () { gsap.set(els, willChangeOff()); }
+        });
+      }
+    });
+
+    /* Metric counters — zeroed here, counted up on entry */
+    var nums = document.querySelectorAll('.stat-num');
+    nums.forEach(function (el) {
+      el.dataset.final = el.textContent;
+      el.innerHTML = '<span class="pre">' + el.dataset.prefix + '</span>0';
+    });
+    ScrollTrigger.batch('.stat-num', {
+      start: 'top 88%',
+      once: true,
+      onEnter: function (els) {
+        els.forEach(function (el) {
+          var target = parseFloat(el.dataset.target);
+          var prefix = el.dataset.prefix;
+          var state = { v: 0 };
+          gsap.to(state, {
+            v: target, duration: 1.7, ease: 'power2.out',
+            onUpdate: function () {
+              el.innerHTML = '<span class="pre">' + prefix + '</span>' + Math.round(state.v);
+            },
+            onComplete: function () { el.innerHTML = el.dataset.final; }
+          });
+        });
+      }
+    });
+
+    /* Cuboid bars — grow from the floor */
+    gsap.set('.bar', { scaleY: 0, transformOrigin: '50% 100%', willChange: 'transform' });
+    ScrollTrigger.batch('.bar', {
+      start: 'top 85%',
+      once: true,
+      onEnter: function (els) {
+        gsap.to(els, {
+          scaleY: 1, duration: 1.25, ease: 'power3.out', stagger: 0.18,
+          overwrite: true,
+          onComplete: function () { gsap.set(els, willChangeOff()); }
+        });
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Card hover — lift + rotateY with content on translateZ layers.
+     Bound only after the entrance completes, desktop fine-pointer only.
+  ------------------------------------------------------------------ */
+  function initCardTilt() {
+    if (isMobile || !window.matchMedia('(pointer: fine)').matches) return;
+    document.querySelectorAll('.card').forEach(function (card) {
+      var bound = false;
+      function bind() {
+        if (bound) return;
+        bound = true;
+        var rX = gsap.quickTo(card, 'rotationX', { duration: 0.55, ease: 'power3.out' });
+        var rY = gsap.quickTo(card, 'rotationY', { duration: 0.55, ease: 'power3.out' });
+        var tY = gsap.quickTo(card, 'y', { duration: 0.55, ease: 'power3.out' });
+        card.addEventListener('pointerenter', function () {
+          card.style.willChange = 'transform';
+          tY(-10);
+        });
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - 0.5;
+          var py = (e.clientY - r.top) / r.height - 0.5;
+          rY(px * 7);
+          rX(py * -6);
+        });
+        card.addEventListener('pointerleave', function () {
+          rX(0); rY(0); tY(0);
+          card.style.willChange = '';
+        });
+      }
+      if (card.classList.contains('is-in')) bind();
+      else {
+        var obs = new MutationObserver(function () {
+          if (card.classList.contains('is-in')) { obs.disconnect(); bind(); }
+        });
+        obs.observe(card, { attributes: true, attributeFilter: ['class'] });
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Contact orb — Three.js lazy-loaded when contact nears viewport.
+     Wireframe icosahedron: self-rotation + lerped mouse tilt.
+  ------------------------------------------------------------------ */
+  function initOrbLazy() {
+    var wrap = document.getElementById('orbWrap');
+    if (!wrap) return;
+    if (!('IntersectionObserver' in window)) { loadThree(startOrb); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { io.disconnect(); loadThree(startOrb); }
+      });
+    }, { rootMargin: '700px 0px' });
+    io.observe(wrap);
+  }
+
+  function loadThree(cb) {
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js';
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  function startOrb() {
+    if (!window.THREE) return;
+    var wrap = document.getElementById('orbWrap');
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    var canvas = renderer.domElement;
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', 'Decorative wireframe icosahedron rotating slowly');
+    wrap.appendChild(canvas);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.z = 7.2;
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    var geo = new THREE.IcosahedronGeometry(1.8, 0);
+    var wire = new THREE.LineSegments(
+      new THREE.EdgesGeometry(geo),
+      new THREE.LineBasicMaterial({ color: 0x7c5cff, transparent: true, opacity: 0.8 })
+    );
+    group.add(wire);
+
+    var skin = new THREE.Mesh(
+      geo,
+      new THREE.MeshBasicMaterial({ color: 0x7c5cff, transparent: true, opacity: 0.05, depthWrite: false })
+    );
+    group.add(skin);
+
+    var halo = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(2.55, 1)),
+      new THREE.LineBasicMaterial({ color: 0x7c5cff, transparent: true, opacity: 0.12 })
+    );
+    group.add(halo);
+
+    var targetX = 0, targetY = 0, curX = 0, curY = 0;
+    window.addEventListener('pointermove', function (e) {
+      targetX = (e.clientX / window.innerWidth - 0.5);
+      targetY = (e.clientY / window.innerHeight - 0.5);
+    }, { passive: true });
+
+    var visible = true, pageActive = !document.hidden;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+      }, { threshold: 0 }).observe(wrap);
+    }
+    document.addEventListener('visibilitychange', function () {
+      pageActive = !document.hidden;
+    });
+
+    function size() {
+      var w = wrap.clientWidth || 1, h = wrap.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    size();
+    window.addEventListener('resize', size);
+
+    (function loop() {
+      requestAnimationFrame(loop);
+      if (!visible || !pageActive) return;
+      wire.rotation.y += 0.0024;
+      wire.rotation.x += 0.0008;
+      halo.rotation.y -= 0.0009;
+      halo.rotation.z += 0.0006;
+      skin.rotation.copy(wire.rotation);
+      curX += (targetX - curX) * 0.045;
+      curY += (targetY - curY) * 0.045;
+      group.rotation.y = curX * 0.55;
+      group.rotation.x = curY * 0.4;
+      renderer.render(scene, camera);
+    })();
+  }
+
+  /* ------------------------------------------------------------------
+     Boot
+  ------------------------------------------------------------------ */
+  function boot() {
+    initIcons();
+
+    if (prefersReduced || !libsReady) {
+      initFallback();
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    initSmoothScroll();
+    initAnchorNav();
+    initBatchReveals();
+    buildMasterTimeline();
+    initCardTilt();
+    if (!isMobile) initOrbLazy();
+
+    window.addEventListener('load', scheduleMasterBuild);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { scheduleMasterBuild(); });
+    }
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(scheduleMasterBuild, 220);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
 </body>
 </html>

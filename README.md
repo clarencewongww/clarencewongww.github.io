@@ -1,12 +1,22 @@
-# Clarence Wong — Personal Site (Chalkboard Cosmos)
+# Clarence Wong — Personal Site
 
-A single-page portfolio for Clarence Wong (黄炜文): educator, learning designer, data analyst, and computer science student.
+Editorial portfolio for Clarence Wong (黄炜文): learning designer & data analyst.
+Dark near-black canvas, off-white type, one electric-purple accent. Instrument
+Serif display, Inter body, JetBrains Mono for tags/dates/metrics.
 
-- **World:** The Chalkboard Cosmos — a classroom chalkboard redrawn as a 3D universe (WebGL/Three.js), scroll-driven.
-- **Tech:** Plain HTML/CSS/JS + Three.js (vendored). Zero build step — GitHub Pages ready.
-- **Handoff:** see HANDOFF.md for current state and the next planned feature (3D section transitions).
-- **Vendored Three.js:** pinned to r160 (js/vendor/three.min.js). The r150+ UMD build emits a deprecation warning and will disappear in future releases — if upgrading, move to the ES-module build.
-- **Content:** Preserved from the original site; typos corrected.
+- **Stack:** single-file `index.html` (inline CSS + JS). Zero build step —
+  GitHub Pages ready. CDN: GSAP + ScrollTrigger, Lenis, Lucide; Three.js is
+  lazy-loaded at the contact section only.
+- **Motion:** one master scrubbed GSAP timeline (progress hairline, hero
+  parallax, skills ribbon), CSS sticky pinning, `ScrollTrigger.batch` for all
+  entrances (3D card tilt-ins, timeline depth slides, counters, cuboid bars).
+  Transform + opacity only. The full architecture is documented in the comment
+  block at the top of `index.html`.
+- **Accessibility:** `prefers-reduced-motion` (or missing CDNs, or <768px
+  screens) degrades every effect to opacity-only fade-ins; skip link, ARIA
+  labels on canvas/chart, keyboard-navigable links.
+- **Content:** real projects, publications (48 citations, h-2, i10-1, two
+  J. Chem. Educ. papers), timeline and links preserved from the previous site.
 - **Contact:** mailto:contact@clarencewongww.com
 
 ## Run locally
@@ -15,4 +25,11 @@ python3 -m http.server 8000   # then open http://localhost:8000
 
 ## Deploy to GitHub Pages
 
-Push the repo root of `clarencewongww.github.io` (or any GitHub Pages-enabled repo). GitHub Pages serves index.html at the root automatically. No build step.
+Push the repo root of `clarencewongww.github.io` (or any GitHub Pages-enabled
+repo). GitHub Pages serves index.html at the root automatically. No build step.
+
+## Legacy files
+
+`DESIGN.md`, `HANDOFF.md`, `PRODUCT.md`, `css/`, `js/`, `images/` are artifacts
+of the previous "Chalkboard Cosmos" concept and are no longer referenced by
+`index.html`. They can be removed in a future cleanup.
