@@ -7,6 +7,9 @@ Serif display, Inter body, JetBrains Mono for tags/dates/metrics.
 - **Stack:** single-file `index.html` (inline CSS + JS). Zero build step —
   GitHub Pages ready. CDN: GSAP + ScrollTrigger, Lenis, Lucide; Three.js is
   lazy-loaded at the contact section only.
+- **Themes:** dark / light / system selector in the nav, persisted in
+  localStorage, applied pre-paint from a tiny head script. All colors are CSS
+  variables with a `[data-theme="light"]` override.
 - **Motion:** one master scrubbed GSAP timeline (progress hairline, hero
   parallax, skills ribbon), CSS sticky pinning, `ScrollTrigger.batch` for all
   entrances (3D card tilt-ins, timeline depth slides, counters, cuboid bars).

@@ -11,6 +11,20 @@
 <meta property="og:url" content="https://clarencewongww.github.io/">
 <meta property="og:description" content="Selected work, research and experience of Clarence Wong — learning designer and data analyst.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="color-scheme" content="dark light">
+<script>
+/* Theme bootstrap — runs before first paint to avoid a theme flash.
+   Preference (dark | light | system) is stored in localStorage 'cw-theme'. */
+(function () {
+  var pref = 'system';
+  try { pref = localStorage.getItem('cw-theme') || 'system'; } catch (e) {}
+  var mode = pref === 'system'
+    ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+    : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.style.colorScheme = mode;
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -28,10 +42,40 @@
   --accent:#7c5cff;
   --accent-soft:#a78fff;
   --accent-dim:#3a2a80;
+  --on-accent:#0d0d0d;
+  --cover-bg:#12101c;
+  --pattern-line:rgba(250,250,250,.055);
+  --pattern-dot:rgba(250,250,250,.14);
+  --chip-bg:linear-gradient(160deg, rgba(250,250,250,.045), rgba(250,250,250,.012));
+  --ghost-soft:rgba(250,250,250,.07);
+  --ghost-strong:rgba(250,250,250,.16);
+  --nav-scrim:rgba(13,13,13,.85);
+  --head-scrim:rgba(13,13,13,.98);
+  --arrow-bg:rgba(13,13,13,.4);
   --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
   --sans:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   --pad:clamp(1.25rem, 5vw, 5rem);
+}
+[data-theme="light"]{
+  --bg:#f7f6f2;
+  --bg-2:#ffffff;
+  --ink:#17171a;
+  --muted:#5a5a63;
+  --line:rgba(23,23,26,.12);
+  --accent:#6a4bff;
+  --accent-soft:#5b3ce6;
+  --accent-dim:#cdc2fb;
+  --on-accent:#ffffff;
+  --cover-bg:#e9e7f2;
+  --pattern-line:rgba(23,23,26,.07);
+  --pattern-dot:rgba(23,23,26,.16);
+  --chip-bg:linear-gradient(160deg, rgba(23,23,26,.035), rgba(23,23,26,.008));
+  --ghost-soft:rgba(23,23,26,.07);
+  --ghost-strong:rgba(23,23,26,.14);
+  --nav-scrim:rgba(247,246,242,.88);
+  --head-scrim:rgba(247,246,242,.98);
+  --arrow-bg:rgba(247,246,242,.55);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto}
@@ -45,7 +89,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-::selection{background:var(--accent);color:#0d0d0d}
+::selection{background:var(--accent);color:var(--on-accent)}
 a{color:inherit;text-decoration:none}
 ul,ol{list-style:none}
 img,svg,canvas{display:block;max-width:100%}
@@ -68,7 +112,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    ========================================================================== */
 .skip-link{
   position:fixed;top:1rem;left:1rem;z-index:200;
-  background:var(--accent);color:#0d0d0d;
+  background:var(--accent);color:var(--on-accent);
   padding:.6rem 1rem;border-radius:2px;
   font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
   transform:translateY(-300%);
@@ -95,7 +139,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:1.4rem var(--pad);
-  background:linear-gradient(rgba(13,13,13,.85), rgba(13,13,13,0));
+  background:linear-gradient(var(--nav-scrim), transparent);
 }
 .nav-brand{display:flex;align-items:baseline;gap:.75rem}
 .nav-brand .mark{
@@ -120,7 +164,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   padding:.5rem 1.1rem;color:var(--ink);
   transition:background-color .3s ease,color .3s ease,border-color .3s ease;
 }
-.nav-cta:hover{background:var(--accent);border-color:var(--accent);color:#0d0d0d}
+.nav-cta:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.theme-btn{
+  width:2.3rem;height:2.3rem;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-items:center;color:var(--muted);
+  transition:color .3s ease,border-color .3s ease;
+}
+.theme-btn:hover{color:var(--ink);border-color:rgba(124,92,255,.5)}
+.theme-btn svg{width:15px;height:15px}
 
 /* ==========================================================================
    HERO
@@ -152,7 +203,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .blob--c{
   width:20vw;height:20vw;min-width:180px;min-height:180px;
   top:32%;left:38%;
-  background:radial-gradient(circle at 50% 50%, rgba(250,250,250,.10), rgba(250,250,250,0) 70%);
+  background:radial-gradient(circle at 50% 50%, rgba(167,143,255,.22), rgba(167,143,255,0) 70%);
   animation:drift-c 13s ease-in-out infinite alternate;
 }
 @keyframes drift-a{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-4vw,5vh,0) scale(1.08)}}
@@ -178,14 +229,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   display:flex;flex-wrap:wrap;gap:2.5rem;align-items:flex-end;
   margin-top:clamp(1.5rem,4vh,3rem);
 }
-.hero-role{font-size:clamp(1.05rem,1.6vw,1.4rem);font-weight:500;max-width:22ch}
+.hero-role{font-size:clamp(1.05rem,1.6vw,1.4rem);font-weight:500;max-width:30ch}
 .hero-role em{font-family:var(--serif);font-style:italic;color:var(--accent-soft)}
 .hero-bio{max-width:34ch;color:var(--muted);font-size:.95rem;margin-left:auto}
-.hero-side{
-  position:absolute;right:var(--pad);top:50%;z-index:2;
-  transform:translateY(-50%) rotate(90deg);transform-origin:center;
-  color:var(--muted);white-space:nowrap;
-}
 .scroll-hint{
   position:absolute;left:var(--pad);bottom:1.6rem;z-index:3;
   display:flex;align-items:center;gap:.9rem;color:var(--muted);
@@ -222,10 +268,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .work-head{
   position:sticky;top:0;z-index:20;
   padding:clamp(4.5rem,9vh,7rem) var(--pad) 2rem;
-  background:linear-gradient(rgba(13,13,13,.98) 74%, rgba(13,13,13,0));
+  background:linear-gradient(var(--head-scrim) 74%, transparent);
 }
-.work-head .row{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
-.work-count{color:var(--muted)}
 .work-grid{
   display:flex;flex-direction:column;
   padding:0 var(--pad);
@@ -262,35 +306,35 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .pattern--grid{
   background:
     radial-gradient(ellipse 80% 90% at 70% 20%, rgba(124,92,255,.34), transparent 65%),
-    repeating-linear-gradient(0deg, rgba(250,250,250,.055) 0 1px, transparent 1px 44px),
-    repeating-linear-gradient(90deg, rgba(250,250,250,.055) 0 1px, transparent 1px 44px),
-    #12101c;
+    repeating-linear-gradient(0deg, var(--pattern-line) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, var(--pattern-line) 0 1px, transparent 1px 44px),
+    var(--cover-bg);
 }
 .pattern--dots{
   background:
     radial-gradient(ellipse 70% 80% at 30% 80%, rgba(124,92,255,.30), transparent 60%),
-    radial-gradient(circle, rgba(250,250,250,.14) 1.2px, transparent 1.6px),
-    #101018;
+    radial-gradient(circle, var(--pattern-dot) 1.2px, transparent 1.6px),
+    var(--cover-bg);
   background-size:auto, 30px 30px, auto;
 }
 .pattern--diag{
   background:
     radial-gradient(ellipse 90% 70% at 80% 90%, rgba(124,92,255,.28), transparent 62%),
-    repeating-linear-gradient(45deg, rgba(250,250,250,.06) 0 1px, transparent 1px 22px),
-    #121019;
+    repeating-linear-gradient(45deg, var(--pattern-line) 0 1px, transparent 1px 22px),
+    var(--cover-bg);
 }
 .pattern--rings{
   background:
     radial-gradient(ellipse 70% 90% at 20% 30%, rgba(124,92,255,.30), transparent 60%),
-    repeating-radial-gradient(circle at 78% 30%, rgba(250,250,250,.07) 0 1px, transparent 1px 34px),
-    #111018;
+    repeating-radial-gradient(circle at 78% 30%, var(--pattern-line) 0 1px, transparent 1px 34px),
+    var(--cover-bg);
 }
 .cover-index{
   position:absolute;right:1.4rem;bottom:-1.6rem;
   font-family:var(--serif);
   font-size:clamp(5rem,9vw,8.5rem);line-height:1;
   color:transparent;
-  -webkit-text-stroke:1px rgba(250,250,250,.16);
+  -webkit-text-stroke:1px var(--ghost-strong);
   pointer-events:none;
 }
 .cover-tag{
@@ -322,11 +366,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   width:2.4rem;height:2.4rem;border-radius:50%;
   border:1px solid var(--line);
   display:grid;place-items:center;
-  color:var(--ink);background:rgba(13,13,13,.4);
+  color:var(--ink);background:var(--arrow-bg);
   transform:translateZ(46px);
   transition:background-color .3s ease,color .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1);
 }
-.card:hover .card-arrow{background:var(--accent);color:#0d0d0d;transform:translateZ(46px) rotate(45deg)}
+.card:hover .card-arrow{background:var(--accent);color:var(--on-accent);transform:translateZ(46px) rotate(45deg)}
 .card-arrow svg{width:15px;height:15px}
 
 /* ==========================================================================
@@ -379,7 +423,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   transform:translateY(-50%);
   font-family:var(--serif);
   font-size:clamp(14rem,36vw,34rem);line-height:1;white-space:nowrap;
-  color:transparent;-webkit-text-stroke:1px rgba(250,250,250,.07);
+  color:transparent;-webkit-text-stroke:1px var(--ghost-soft);
   pointer-events:none;
   will-change:transform;
 }
@@ -395,7 +439,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   display:flex;flex-direction:column;justify-content:space-between;gap:2.6rem;
   min-width:290px;min-height:190px;
   border:1px solid var(--line);border-radius:14px;
-  background:linear-gradient(160deg, rgba(250,250,250,.045), rgba(250,250,250,.012));
+  background:var(--chip-bg);
   padding:1.4rem;
   transition:border-color .35s ease,background-color .35s ease;
 }
@@ -442,9 +486,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   transition:background-color .3s ease,color .3s ease,border-color .3s ease;
 }
 .btn svg{width:14px;height:14px}
-.btn:hover{background:var(--accent);border-color:var(--accent);color:#0d0d0d}
+.btn:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn--ghost{color:var(--muted)}
-.btn--ghost:hover{color:#0d0d0d}
+.btn--ghost:hover{color:var(--on-accent)}
 
 .chart-block{margin-top:3.5rem}
 .chart-title{color:var(--muted);margin-bottom:.4rem}
@@ -502,7 +546,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--muted);line-height:1.6;
 }
-.chart-note{margin-top:1.6rem;color:var(--muted)}
 .pubs{margin-top:2.6rem;border-top:1px solid var(--line)}
 .pub-row{
   display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
@@ -581,10 +624,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @media (max-width: 767px){
   .nav-links a:not(.nav-cta){display:none}
-  .hero-side{display:none}
   .blob{filter:blur(56px)}
   .work-head{padding-top:5rem}
-  .work-head .row{flex-direction:column;align-items:flex-start;gap:.4rem}
   .card--1,.card--2,.card--3,.card--4{
     width:100%;margin:0 0 1.4rem;align-self:stretch;
   }
@@ -652,9 +693,11 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   <nav class="nav-links" aria-label="Primary">
     <a class="mono" href="#work">Work</a>
     <a class="mono" href="#experience">Experience</a>
+    <a class="mono" href="#education">Education</a>
     <a class="mono" href="#skills">Skills</a>
     <a class="mono" href="#research">Research</a>
     <a class="mono nav-cta" href="#contact">Contact</a>
+    <button id="themeToggle" class="theme-btn" type="button" aria-label="Theme preference: system. Activate to switch theme."><i data-lucide="moon"></i></button>
   </nav>
 </header>
 
@@ -668,17 +711,15 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
       <div class="blob blob--c" id="blobC"></div>
     </div>
 
-    <p class="hero-side mono" aria-hidden="true">Learning Design — Data — Singapore / Cambridge MA</p>
-
     <div class="hero-inner" id="heroInner">
       <p class="hero-kicker mono">Learning Designer &amp; Data Analyst</p>
       <h1 class="hero-name">
         <span class="line">Clarence</span>
-        <span class="line line--indent">Wo<em>ng</em></span>
+        <span class="line line--indent"><em>Wong</em></span>
       </h1>
       <div class="hero-sub">
-        <p class="hero-role">From award-winning classrooms to <em>machine intelligence</em> — I design learning that data can prove.</p>
-        <p class="hero-bio">MOE Singapore educator. Harvard M.Ed. in Learning Design (4.00). Temasek Poly AI Diploma (4.00). First-author in the Journal of Chemical Education.</p>
+        <p class="hero-role">I spent five years teaching in Singapore classrooms. Now I design learning and build with <em>data</em>.</p>
+        <p class="hero-bio">Previously MOE Singapore. Harvard M.Ed. and Temasek Poly AI Diploma — both 4.00 GPA. First-author in the Journal of Chemical Education.</p>
       </div>
     </div>
 
@@ -692,10 +733,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   <section class="section work" id="work" aria-labelledby="workTitle">
     <div class="work-head">
       <p class="section-kicker mono rv">01 — Selected Work</p>
-      <div class="row">
-        <h2 class="section-title rv" id="workTitle">Selected <em>Work</em></h2>
-        <p class="work-count mono rv">(04) shipped &amp; published</p>
-      </div>
+      <h2 class="section-title rv" id="workTitle">Selected <em>Work</em></h2>
     </div>
 
     <div class="work-grid">
@@ -707,7 +745,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
         </div>
         <div class="card-body">
           <h3 class="card-title">ChemAPParatus</h3>
-          <p class="card-desc">AI-powered image classification that names chemistry lab apparatus from a photo — built for students, deployed on the web.</p>
+          <p class="card-desc">Snap a photo of lab glassware and get its name — an image-classification app I built for chemistry students, deployed on the web.</p>
           <div class="card-meta">
             <span class="card-tags">
               <span class="tag">Machine Learning</span><span class="tag">Web App</span><span class="tag">Python</span>
@@ -726,7 +764,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
         </div>
         <div class="card-body">
           <h3 class="card-title">Online Learning Adaptivity</h3>
-          <p class="card-desc">Machine-learning model predicting students' adaptivity to online learning, served as an interactive web app.</p>
+          <p class="card-desc">A machine-learning model that predicts how well students adapt to online learning, wrapped in a small web app.</p>
           <div class="card-meta">
             <span class="card-tags">
               <span class="tag">Machine Learning</span><span class="tag">Data Analysis</span>
@@ -745,12 +783,11 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
         </div>
         <div class="card-body">
           <h3 class="card-title">Agency Dash</h3>
-          <p class="card-desc">Agency staffing dashboard with filters and summary statistics for at-a-glance decisions.</p>
+          <p class="card-desc">A staffing dashboard with filters and summary statistics, built with Streamlit for at-a-glance decisions.</p>
           <div class="card-meta">
             <span class="card-tags">
               <span class="tag">Data Viz</span><span class="tag">Streamlit</span>
             </span>
-            <span class="card-year mono">[Year]</span>
           </div>
         </div>
         <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
@@ -764,12 +801,11 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
         </div>
         <div class="card-body">
           <h3 class="card-title">Learning Education Policy Analysis to Make the World Better: Vol. 2</h3>
-          <p class="card-desc">Contributing chapter on education policy analysis, published in the Reimers-led volume.</p>
+          <p class="card-desc">A contributed chapter on education policy analysis, published in an edited volume for teachers and policymakers.</p>
           <div class="card-meta">
             <span class="card-tags">
               <span class="tag">Policy</span><span class="tag">Research</span>
             </span>
-            <span class="card-year mono">[Year]</span>
           </div>
         </div>
         <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
@@ -780,7 +816,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   <!-- ============================== EXPERIENCE ============================== -->
   <section class="section" id="experience" aria-labelledby="expTitle">
     <p class="section-kicker mono rv">02 — Experience</p>
-    <h2 class="section-title rv" id="expTitle">The road <em>here</em></h2>
+    <h2 class="section-title rv" id="expTitle">Where I've <em>worked</em></h2>
 
     <div class="tl-wrap">
       <span class="tl-spine" aria-hidden="true"></span>
@@ -789,25 +825,49 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
           <span class="tl-date mono">2019 — 2024</span>
           <h3 class="tl-org">Ministry of Education, Singapore</h3>
           <p class="tl-role">Educator · General Education Officer</p>
-          <p class="tl-desc">Award-winning teacher. Led data-driven curriculum enhancement through statistical modelling of school-level data, and presented at the national biennial teaching conference.</p>
+          <p class="tl-desc">Taught chemistry and physics, won multiple awards for innovative teaching, and presented at Singapore's biennial teaching conference. Ran the statistical analysis behind curriculum decisions along the way.</p>
         </li>
         <li class="tl-item">
           <span class="tl-date mono">Sep — Dec 2023</span>
           <h3 class="tl-org">Entrepreneurship Lab</h3>
           <p class="tl-role">Analyst · MIT Sloan × SpaceSense.ai</p>
-          <p class="tl-desc">Primary and secondary market research; turned data into go-to-market recommendations alongside the founder and CEO.</p>
+          <p class="tl-desc">Dug into primary and secondary market research and turned it into go-to-market recommendations, working directly with the founder and CEO.</p>
         </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================== EDUCATION ============================== -->
+  <section class="section" id="education" aria-labelledby="eduTitle">
+    <p class="section-kicker mono rv">03 — Education</p>
+    <h2 class="section-title rv" id="eduTitle">Where I've <em>studied</em></h2>
+
+    <div class="tl-wrap">
+      <span class="tl-spine" aria-hidden="true"></span>
+      <ol class="tl">
         <li class="tl-item">
           <span class="tl-date mono">2023 — 2024</span>
           <h3 class="tl-org">Harvard University</h3>
           <p class="tl-role">M.Ed. · Learning Design, Innovation &amp; Technology</p>
-          <p class="tl-desc">Graduated with a 4.00 GPA. Cross-registered at MIT Sloan and Harvard Kennedy School; coursework in machine learning and big-data analytics.</p>
+          <p class="tl-desc">4.00 GPA. Cross-registered at MIT Sloan and Harvard Kennedy School, with coursework in machine learning and big-data analytics.</p>
         </li>
         <li class="tl-item">
           <span class="tl-date mono">2022 — 2023</span>
           <h3 class="tl-org">Temasek Polytechnic</h3>
           <p class="tl-role">Specialist Diploma · AI Solutions Development</p>
-          <p class="tl-desc">Graduated with a 4.00 GPA, shipping real-world AI-driven web applications with Python, deep learning and transfer learning.</p>
+          <p class="tl-desc">4.00 GPA. Built and shipped real AI-driven web apps — image classification and prediction models in Python.</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-date mono">2019 — 2021</span>
+          <h3 class="tl-org">National Institute of Education</h3>
+          <p class="tl-role">Postgraduate Diploma · Education</p>
+          <p class="tl-desc">Nanyang Technological University. Focused on chemistry and physics teaching, capped by a 10-week practicum observed by senior educators.</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-date mono">2015 — 2019</span>
+          <h3 class="tl-org">National University of Singapore</h3>
+          <p class="tl-role">BSc (Honours) · Chemistry</p>
+          <p class="tl-desc">First-Class Honours with Highest Distinction, on a government scholarship and the Dean's List. Published my first-author paper in the Journal of Chemical Education here.</p>
         </li>
       </ol>
     </div>
@@ -818,7 +878,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
     <div class="skills-viewport">
       <span class="skills-word" id="skillsWord" aria-hidden="true">Toolkit</span>
       <div class="skills-head">
-        <p class="section-kicker mono rv">03 — Skills</p>
+        <p class="section-kicker mono rv">04 — Skills</p>
         <h2 class="section-title rv" id="skillsTitle">What I <em>reach for</em></h2>
       </div>
       <ul class="ribbon" id="ribbon">
@@ -854,9 +914,9 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   <section class="section" id="research" aria-labelledby="researchTitle">
     <div class="research-grid">
       <div class="research-copy">
-        <p class="section-kicker mono rv">04 — Research</p>
+        <p class="section-kicker mono rv">05 — Research</p>
         <h2 class="section-title rv" id="researchTitle">Published &amp; <em>cited</em></h2>
-        <p class="rv">First-author in the peer-reviewed Journal of Chemical Education — chemistry education research that other researchers build on.</p>
+        <p class="rv">First-author in the Journal of Chemical Education — peer-reviewed chemistry education research that others keep building on.</p>
         <div class="btn-row rv">
           <a class="btn" href="https://scholar.google.com/citations?user=C7ygBNAAAAAJ&amp;hl=en" target="_blank" rel="noopener">
             Google Scholar <i data-lucide="arrow-up-right"></i>
@@ -905,7 +965,6 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
               <span>Workplace Transition · 2019</span>
             </div>
           </div>
-          <p class="chart-note mono rv">Bar heights scaled for legibility · Counts via Google Scholar</p>
         </div>
 
         <div class="pubs">
@@ -932,7 +991,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   <section class="section contact" id="contact" aria-labelledby="contactTitle">
     <div id="orbWrap" aria-hidden="true"></div>
     <div class="contact-inner">
-      <p class="section-kicker mono rv">05 — Contact</p>
+      <p class="section-kicker mono rv">06 — Contact</p>
       <h2 class="contact-title rv" id="contactTitle">Let's work<br><em>together.</em></h2>
       <div class="rv">
         <a class="contact-mail" href="mailto:contact@clarencewongww.com">contact@clarencewongww.com</a>
@@ -977,6 +1036,51 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
       window.lucide.createIcons();
     }
+  }
+
+  /* ------------------------------------------------------------------
+     Theme — dark / light / system, persisted in localStorage.
+     Works independently of the animation stack (also in fallback mode).
+  ------------------------------------------------------------------ */
+  function initTheme() {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    var order = ['dark', 'light', 'system'];
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+
+    function storedPref() {
+      try { return localStorage.getItem('cw-theme') || 'system'; } catch (e) { return 'system'; }
+    }
+    function resolve(pref) {
+      return pref === 'system' ? (mq.matches ? 'light' : 'dark') : pref;
+    }
+    function render(pref, mode) {
+      var icon = pref === 'system' ? 'monitor' : (mode === 'light' ? 'sun' : 'moon');
+      btn.innerHTML = '<i data-lucide="' + icon + '"></i>';
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+      btn.setAttribute('aria-label', 'Theme preference: ' + pref + '. Activate to switch theme.');
+      btn.setAttribute('title', 'Theme: ' + pref);
+    }
+    function apply(pref) {
+      var mode = resolve(pref);
+      document.documentElement.setAttribute('data-theme', mode);
+      document.documentElement.style.colorScheme = mode;
+      try { localStorage.setItem('cw-theme', pref); } catch (e) {}
+      render(pref, mode);
+    }
+    btn.addEventListener('click', function () {
+      var next = order[(order.indexOf(storedPref()) + 1) % order.length];
+      apply(next);
+    });
+    function onSystemChange() {
+      if (storedPref() === 'system') apply('system');
+    }
+    if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+    else if (mq.addListener) mq.addListener(onSystemChange);
+
+    render(storedPref(), document.documentElement.getAttribute('data-theme') || 'dark');
   }
 
   /* ------------------------------------------------------------------
@@ -1346,6 +1450,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
   ------------------------------------------------------------------ */
   function boot() {
     initIcons();
+    initTheme();
 
     if (prefersReduced || !libsReady) {
       initFallback();
