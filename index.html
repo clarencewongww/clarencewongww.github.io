@@ -289,6 +289,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .card--2{width:38%;align-self:flex-end;margin-top:-9rem;z-index:2}
 .card--3{width:47%;align-self:flex-start;margin-top:-4rem;margin-left:7%;z-index:3}
 .card--4{width:56%;align-self:flex-end;margin-top:-7rem;z-index:4}
+.card--5{width:55%;align-self:flex-start;margin-top:-5rem;margin-left:4%;z-index:5}
+.card--6{width:45%;align-self:flex-end;margin-top:-8rem;z-index:6}
+.card--7{width:60%;align-self:flex-start;margin-top:-5rem;z-index:7}
 .card-cover{
   position:relative;overflow:hidden;
   border-bottom:1px solid var(--line);
@@ -297,12 +300,28 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .card--2 .card-cover{aspect-ratio:4/3.4}
 .card--3 .card-cover{aspect-ratio:16/9.5}
 .card--4 .card-cover{aspect-ratio:16/7.5}
+.card--5 .card-cover{aspect-ratio:16/9}
+.card--6 .card-cover{aspect-ratio:16/10}
+.card--7 .card-cover{aspect-ratio:16/9.5}
 .cover-pattern{
-  position:absolute;inset:-12%;
+  position:absolute;inset:-12%;z-index:0;
   transition:transform .8s cubic-bezier(.22,1,.36,1);
   will-change:auto;
 }
 .card:hover .cover-pattern{transform:scale(1.07)}
+.cover-img{
+  position:absolute;inset:0;z-index:1;
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  transition:transform .8s cubic-bezier(.22,1,.36,1);
+}
+.card:hover .cover-img{transform:scale(1.05)}
+.card:has(.cover-img) .cover-index{-webkit-text-stroke-color:rgba(250,250,250,.3)}
+.card-cover::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(13,13,13,.52), rgba(13,13,13,0) 30%),
+    linear-gradient(0deg, rgba(13,13,13,.4), rgba(13,13,13,0) 26%);
+}
 .pattern--grid{
   background:
     radial-gradient(ellipse 80% 90% at 70% 20%, rgba(124,92,255,.34), transparent 65%),
@@ -330,7 +349,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     var(--cover-bg);
 }
 .cover-index{
-  position:absolute;right:1.4rem;bottom:-1.6rem;
+  position:absolute;right:1.4rem;bottom:-1.6rem;z-index:3;
   font-family:var(--serif);
   font-size:clamp(5rem,9vw,8.5rem);line-height:1;
   color:transparent;
@@ -338,7 +357,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   pointer-events:none;
 }
 .cover-tag{
-  position:absolute;left:1.2rem;top:1.2rem;
+  position:absolute;left:1.2rem;top:1.2rem;z-index:3;
   color:var(--accent-soft);
 }
 .card-body{padding:1.6rem 1.6rem 1.5rem;transform:translateZ(34px)}
@@ -626,7 +645,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .nav-links a:not(.nav-cta){display:none}
   .blob{filter:blur(56px)}
   .work-head{padding-top:5rem}
-  .card--1,.card--2,.card--3,.card--4{
+  .card--1,.card--2,.card--3,.card--4,.card--5,.card--6,.card--7{
     width:100%;margin:0 0 1.4rem;align-self:stretch;
   }
   .work-grid{perspective:none}
@@ -740,6 +759,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
       <a class="card card--1" href="https://apps.clarencewongww.com/chemAPParatus" target="_blank" rel="noopener" aria-label="ChemAPParatus — open project">
         <div class="card-cover">
           <div class="cover-pattern pattern--grid"></div>
+          <img class="cover-img" src="images/project-chemapparatus.png" alt="Chemistry laboratory apparatus — glassware filled with colorful liquids" loading="lazy" onerror="this.remove()">
           <span class="cover-tag mono">ML Web App</span>
           <span class="cover-index" aria-hidden="true">01</span>
         </div>
@@ -759,6 +779,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
       <a class="card card--2" href="https://apps.clarencewongww.com/onlinelearningapp" target="_blank" rel="noopener" aria-label="Online Learning Adaptivity — open project">
         <div class="card-cover">
           <div class="cover-pattern pattern--dots"></div>
+          <img class="cover-img" src="images/project-online-learning-prediction.jpg" alt="Illustration of students learning online with an open book on a laptop screen" loading="lazy" onerror="this.remove()">
           <span class="cover-tag mono">ML Web App</span>
           <span class="cover-index" aria-hidden="true">02</span>
         </div>
@@ -778,6 +799,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
       <a class="card card--3" href="https://agencydash.streamlit.app" target="_blank" rel="noopener" aria-label="Agency Dash — open project">
         <div class="card-cover">
           <div class="cover-pattern pattern--diag"></div>
+          <img class="cover-img" src="images/project-agency-dash-dashboard.png" alt="Screenshot of the Agency Staff Dashboard with filters and summary statistics" loading="lazy" onerror="this.remove()">
           <span class="cover-tag mono">Data Dashboard</span>
           <span class="cover-index" aria-hidden="true">03</span>
         </div>
@@ -796,6 +818,7 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
       <a class="card card--4" href="https://www.amazon.com/dp/B0CZPQWVKQ" target="_blank" rel="noopener" aria-label="Learning Education Policy Analysis, Volume 2 — open publication">
         <div class="card-cover">
           <div class="cover-pattern pattern--rings"></div>
+          <img class="cover-img" src="images/project-policy-book-chapter.jpg" alt="Cover of the book Learning Education Policy Analysis to Make the World Better, Volume 2" loading="lazy" onerror="this.remove()">
           <span class="cover-tag mono">Policy Book Chapter</span>
           <span class="cover-index" aria-hidden="true">04</span>
         </div>
@@ -806,6 +829,66 @@ Fallbacks   : prefers-reduced-motion (or missing CDN libs, or narrow screens)
             <span class="card-tags">
               <span class="tag">Policy</span><span class="tag">Research</span>
             </span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--5" href="https://clarencewongww.github.io/ibkr-dashboard/" target="_blank" rel="noopener" aria-label="IBKR Dashboard — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--grid"></div>
+          <img class="cover-img" src="images/project-ibkr-dashboard.jpg" alt="IBKR Realised P&amp;L dashboard with a monthly P&amp;L chart and summary table" loading="lazy" onerror="this.remove()">
+          <span class="cover-tag mono">Finance Dashboard</span>
+          <span class="cover-index" aria-hidden="true">05</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">IBKR Dashboard</h3>
+          <p class="card-desc">Turns a raw IBKR activity export into monthly P&amp;L buckets, charts and a ticker drill-down — entirely in the browser, so the statement never leaves your machine.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">Data Viz</span><span class="tag">JavaScript</span><span class="tag">Privacy-first</span>
+            </span>
+            <span class="card-year mono">2026</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--6" href="https://clarencewongww.github.io/ielts-writing-prep/" target="_blank" rel="noopener" aria-label="IELTS Writing Prep — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--dots"></div>
+          <img class="cover-img" src="images/project-ielts-writing-prep.jpg" alt="IELTS Academic Writing practice app start screen with task settings" loading="lazy" onerror="this.remove()">
+          <span class="cover-tag mono">CBT Simulation</span>
+          <span class="cover-index" aria-hidden="true">06</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">IELTS Writing Prep</h3>
+          <p class="card-desc">A 60-minute computer-based IELTS Academic Writing simulation — 28 Task 1 charts, 30 Task 2 prompts and instant heuristic feedback.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Education</span>
+            </span>
+            <span class="card-year mono">2026</span>
+          </div>
+        </div>
+        <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
+      </a>
+
+      <a class="card card--7" href="https://clarencewongww.github.io/career-explorer/" target="_blank" rel="noopener" aria-label="Career Explorer — open project">
+        <div class="card-cover">
+          <div class="cover-pattern pattern--diag"></div>
+          <img class="cover-img" src="images/project-career-explorer.jpg" alt="Career Explorer welcome screen with name and email fields" loading="lazy" onerror="this.remove()">
+          <span class="cover-tag mono">Career Quiz</span>
+          <span class="cover-index" aria-hidden="true">07</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Career Explorer</h3>
+          <p class="card-desc">A RIASEC career quiz and guided workbook for middle-school students — 24 questions, 1,515 careers and zine-style match cards.</p>
+          <div class="card-meta">
+            <span class="card-tags">
+              <span class="tag">JavaScript</span><span class="tag">Education</span><span class="tag">Zero-dependency</span>
+            </span>
+            <span class="card-year mono">2026</span>
           </div>
         </div>
         <span class="card-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>

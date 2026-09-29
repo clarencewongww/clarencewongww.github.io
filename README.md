@@ -18,8 +18,9 @@ Serif display, Inter body, JetBrains Mono for tags/dates/metrics.
 - **Accessibility:** `prefers-reduced-motion` (or missing CDNs, or <768px
   screens) degrades every effect to opacity-only fade-ins; skip link, ARIA
   labels on canvas/chart, keyboard-navigable links.
-- **Content:** real projects, publications (48 citations, h-2, i10-1, two
-  J. Chem. Educ. papers), timeline and links preserved from the previous site.
+- **Content:** 7 selected projects with real screenshots (project cards fall
+  back to generative CSS patterns if an image is missing), publications
+  (48 citations, h-2, i10-1, two J. Chem. Educ. papers), timeline and links.
 - **Contact:** mailto:contact@clarencewongww.com
 
 ## Run locally
@@ -33,6 +34,8 @@ repo). GitHub Pages serves index.html at the root automatically. No build step.
 
 ## Legacy files
 
-`DESIGN.md`, `HANDOFF.md`, `PRODUCT.md`, `css/`, `js/`, `images/` are artifacts
-of the previous "Chalkboard Cosmos" concept and are no longer referenced by
-`index.html`. They can be removed in a future cleanup.
+`DESIGN.md`, `HANDOFF.md`, `PRODUCT.md`, `css/`, `js/` and
+`images/profile-photo-clarence-wong.png` are artifacts of the previous
+"Chalkboard Cosmos" concept and are no longer referenced by `index.html`.
+The `images/project-*` files are current — they are the project card covers.
+The rest can be removed in a future cleanup.
